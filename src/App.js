@@ -17,9 +17,8 @@ function App() {
         >
           Learn React
         </a>
-        <p>new Test</p>
-{/* ffcca35f027d57d54 */}
-</div>
+      </header>
+    </div>
   );
 }
 
