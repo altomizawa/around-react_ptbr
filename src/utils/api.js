@@ -1,5 +1,3 @@
-import { authorization } from "./constants.js";
-
 export class Api {
   constructor(url, authorization) {
     this._url = url;
@@ -101,7 +99,7 @@ export class Api {
       });
   }
 
-  async addCard(cardTitle, cardLink, popup) {
+  async addCard(cardTitle, cardLink) {
     return await fetch(`${this._url}/cards`, {
       method: "POST",
       headers: {
@@ -142,11 +140,11 @@ export class Api {
 
       .catch((err) => {
         console.log(err);
-      })
-
-      .finally(() => {
-        button.textContent = "SIM";
       });
+
+    // .finally(() => {
+    //   button.textContent = "SIM";
+    // });
   }
 
   sendLike(cardId) {

@@ -8,6 +8,6 @@
   align-items: center;
   justify-content: center;
   z-index: 10;
-  top:-140%;
+  top: -140%;
   transition: 800ms cubic-bezier(0.52, -0.46, 0.48, 1.8);
 }
