@@ -8,6 +8,7 @@ import PopupWithForm from "../PopupWithForm";
 import Card from "../Card/Card";
 
 import { clientApi } from "../constants";
+import PopupWithImage from "../PopupWithImage";
 
 const handleProfileClick = () => {
   document.querySelector(".popup_profile_info").classList.add("popup_active");
@@ -168,38 +169,6 @@ function Main() {
       {/* <!-- ------------------------CARD GRID------------------------------ --> */}
       <ul className="cards">
         {initialArrayData}
-
-        {/* <!-- ------------------------CARD POPUP WITH IMAGE--------------------------- --> */}
-        <div className="popupwithimage popup_active">
-          <div className="popupwithimage__wrapper">
-            <img
-              src={CloseButton}
-              alt="ícone X de fechar a janela"
-              className="popupwithimage__close-button"
-            />
-            <img src=" " className="popupwithimage__image-big" alt=" " />
-            <p></p>
-          </div>
-        </div>
-
-        {/* <!-- -----------------DELETE CARD CONFIRMATION POPUP-------------------------> */}
-        <div className="popup popup_delete-card-confirmation">
-          <div className="popup__card">
-            <img
-              src={CloseButton}
-              alt="ícone X de fechar a janela"
-              className="popup__close-button"
-            />
-            <h4 className="popup__title">Excluir cartão?</h4>
-            <button
-              className="popup__confirmation-button"
-              type="submit"
-              enabled="true"
-            >
-              SIM
-            </button>
-          </div>
-        </div>
       </ul>
     </main>
   );
