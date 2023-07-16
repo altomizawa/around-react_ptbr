@@ -85,7 +85,11 @@ function Main() {
           </form>
         </div>
         {
-          <PopupWithForm title="Alterar a foto do perfil" name="avatar">
+          <PopupWithForm
+            visibility={props.isEditAvatarPopupOpen ? "popup_open" : "popup"}
+            title="Alterar a foto do perfil"
+            name="avatar"
+          >
             <input
               id="profile-link-input"
               name="{avatar}"

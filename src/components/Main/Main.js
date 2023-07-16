@@ -3,46 +3,47 @@ import React from "react";
 import "./Main.css";
 import PencilButton from "../../images/Pencil.svg";
 import AddButton from "../../images/Plus-sign.svg";
-import CloseButton from "../../images/Close_Icon.svg";
 import PopupWithForm from "../PopupWithForm";
 import Card from "../Card/Card";
-
 import { clientApi } from "../constants";
-import PopupWithImage from "../PopupWithImage";
 
-const handleProfileClick = () => {
-  document.querySelector(".popup_profile_info").classList.add("popup_active");
-};
-const handleAvatarClick = () => {
-  document.querySelector(".popup_profile_avatar").classList.add("popup_active");
-};
-const handleNewCardClick = () => {
-  document.querySelector(".popup_add-card").classList.add("popup_active");
-};
-const button = document.querySelector("button");
 const userData = await clientApi.getUser();
 const initialArray = await clientApi.getCardArray();
 
-function Main() {
+function Main(props) {
   const initialArrayData = initialArray.map((card) => (
-    <Card
-      name={card.name}
-      link={card.link}
-      key={card._id}
-      owner={card.owner}
-      likes={card.likes}
-    />
+    <Card key={card._id} {...card} />
   ));
+
+  // --------------------PREVENT DEFAULT-------------------------
+  function submitHandler(evt) {
+    evt.preventDefault();
+  }
+
+  // --------------------GET FORM DATA------------------------
+  const [formData, setFormData] = React.useState({
+    name: "",
+    about: "",
+    avatar: "",
+    newCard: "",
+  });
+
+  function handleInputChange(evt) {
+    console.log(evt.target.value);
+  }
 
   return (
     <main>
       <div className="profile">
-        {/* <!-- ------------------------AVATAR POPUP------------------------------ --> */}
+        {/* <!-- ------------------------PROFILE AVATAR FORM------------------------------ --> */}
         {
           <PopupWithForm
             title="Alterar a foto do perfil"
             name="profile_avatar"
             buttonLabel="Salvar"
+            onSubmit={submitHandler}
+            isPopupActive={props.isEditAvatarPopupOpen}
+            onClose={props.onClose}
           >
             <input
               id="profile-link-input"
@@ -51,11 +52,8 @@ function Main() {
               className="popup__input popup__input_profile-link"
               placeholder="Link da imagem"
               required
+              onChange={handleInputChange}
             />
-
-            <button className="popup__submit-button" type="submit">
-              Alterar
-            </button>
 
             <span
               className="popup__input-error card-link-input-error"
@@ -64,12 +62,15 @@ function Main() {
           </PopupWithForm>
         }
 
-        {/* <!-- ------------------------PROFILE INFO POPUP------------------------------ --> */}
+        {/* <!-- ------------------------PROFILE INFO FORM------------------------------ --> */}
         {
           <PopupWithForm
             title="Editar perfil"
             name="profile_info"
             buttonLabel="Alterar"
+            onSubmit={submitHandler}
+            isPopupActive={props.isEditProfilePopupOpen}
+            onClose={props.onClose}
           >
             <input
               id="profile-name-input"
@@ -78,6 +79,7 @@ function Main() {
               className="popup__input popup__input_profile-name"
               placeholder={userData.name}
               required
+              onChange={handleInputChange}
             />
             <input
               id="profile-profession-input"
@@ -86,10 +88,44 @@ function Main() {
               className="popup__input popup__input_profile-profession"
               placeholder={userData.about}
               required
+              onChange={handleInputChange}
             />
-            <button className="popup__submit-button" type="submit">
-              Alterar
-            </button>
+            <span
+              className="popup__input-error card-link-input-error"
+              id="profile-link-input--error"
+            />
+          </PopupWithForm>
+        }
+
+        {/* <!-- ------------------------NEW CARD FORM------------------------------ --> */}
+        {
+          <PopupWithForm
+            title="Novo local"
+            name="anewcard"
+            buttonLabel="Criar"
+            onSubmit={submitHandler}
+            isPopupActive={props.isAddPlacePopupOpen}
+            onClose={props.onClose}
+          >
+            <input
+              id="profile-name-input"
+              name="name"
+              type="text"
+              className="popup__input popup__input_profile-name"
+              placeholder="Título"
+              required
+              onChange={handleInputChange}
+            />
+            <input
+              id="profile-link-input"
+              name="link"
+              type="url"
+              className="popup__input popup__input_profile-link"
+              placeholder="Link da imagem"
+              required
+              onChange={handleInputChange}
+            />
+
             <span
               className="popup__input-error card-link-input-error"
               id="profile-link-input--error"
@@ -99,7 +135,10 @@ function Main() {
 
         {/* <!-- ------------------------PROFILE INFO------------------------------ --> */}
         <div className="profile__info">
-          <div className="profile__picture-wrapper" onClick={handleAvatarClick}>
+          <div
+            className="profile__picture-wrapper"
+            onClick={props.onEditAvatarClick}
+          >
             <div className="profile__picture-overlay">
               <img
                 src={PencilButton}
@@ -117,7 +156,10 @@ function Main() {
           <div className="profile__text-wrapper">
             <div className="profile__name-wrapper">
               <h1 className="profile__name">{userData.name}</h1>
-              <button onClick={handleProfileClick} className="profile__edit">
+              <button
+                onClick={props.onEditProfileClick}
+                className="profile__edit"
+              >
                 <img src={PencilButton} alt="ilustração de um lápis" />
               </button>
             </div>
@@ -126,7 +168,7 @@ function Main() {
         </div>
 
         {/* <!-- ------------------------ADD NEW CARD BUTTON------------------------------ --> */}
-        <button className="adicionar-button" onClick={handleNewCardClick}>
+        <button className="adicionar-button" onClick={props.onAddPlaceClick}>
           <img
             src={AddButton}
             alt="sinal de mais para adicionar imagem"
@@ -135,41 +177,8 @@ function Main() {
         </button>
       </div>
 
-      {/* <!-- ------------------------NEW CARD POPUP------------------------------ --> */}
-      {
-        <PopupWithForm title="Novo local" name="add-card" buttonLabel="Criar">
-          <input
-            id="profile-name-input"
-            name="name"
-            type="text"
-            className="popup__input popup__input_profile-name"
-            placeholder="Título"
-            required
-          />
-          <input
-            id="profile-link-input"
-            name="link"
-            type="url"
-            className="popup__input popup__input_profile-link"
-            placeholder="Link da imagem"
-            required
-          />
-
-          <button className="popup__submit-button" type="submit">
-            Criar
-          </button>
-
-          <span
-            className="popup__input-error card-link-input-error"
-            id="profile-link-input--error"
-          />
-        </PopupWithForm>
-      }
-
       {/* <!-- ------------------------CARD GRID------------------------------ --> */}
-      <ul className="cards">
-        {initialArrayData}
-      </ul>
+      <ul className="cards">{initialArrayData}</ul>
     </main>
   );
 }

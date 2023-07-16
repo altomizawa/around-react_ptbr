@@ -1,22 +1,61 @@
+import React from "react";
 import CloseButton from "../images/Close_Icon.svg";
 
 function PopupWithForm(props) {
-  function closePopup() {
-    document
-      .querySelector(`.popup_${props.name}`)
-      .classList.remove("popup_active");
+  const handleOverlayClick = (evt) => {
+    if (evt.target.classList.contains(`popup_${props.name}`)) {
+      props.onClose();
+      removeEventListeners();
+    }
+  };
+
+  const handleEsc = (evt) => {
+    if (evt.key === "Escape") {
+      props.onClose();
+      removeEventListeners();
+    }
+  };
+
+  function setEventListeners() {
+    window.addEventListener("keydown", handleEsc);
+    window.addEventListener("click", handleOverlayClick);
   }
+
+  function removeEventListeners() {
+    window.removeEventListener("keydown", handleEsc);
+    window.removeEventListener("click", handleOverlayClick);
+  }
+
+  setEventListeners();
+
   return (
-    <div className={`popup popup_${props.name}`}>
-      <form className="popup__card" autoComplete="off" noValidate>
+    <div
+      className={`popup popup_${props.name} ${
+        props.isPopupActive && "popup_active"
+      }`}
+    >
+      <form
+        className="popup__card"
+        autoComplete="off"
+        noValidate
+        name="{props.name}"
+      >
         <img
           src={CloseButton}
           alt="ícone X de fechar a janela"
           className="popup__close-button"
-          onClick={closePopup}
+          onClick={props.onClose}
         />
         <h4 className="popup__title">{props.title}</h4>
         {props.children}
+        <button
+          className="popup__submit-button"
+          type="submit"
+          onClick={props.onSubmit}
+          disabled={true}
+        >
+          {props.buttonLabel}
+        </button>
       </form>
     </div>
   );
