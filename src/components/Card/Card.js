@@ -1,7 +1,5 @@
 import React from "react";
 
-import "../Card/Card.css";
-import "../Main/Main.css";
 import trashCanActive from "../../images/trashCan.svg";
 import trashCanInactive from "../../images/trashCan_grey.svg";
 import heartActive from "../../images/heart_active.svg";
@@ -16,29 +14,11 @@ export default function Card(props) {
   });
   const [isThisCardLiked, setIsThisCardLiked] = React.useState(myCardLikes);
   const isThisMyCard = thisUser._id === props.owner._id;
-  const [isPopupActive, setIsPopupActive] = React.useState(false);
+  //const [isPopupActive, setIsPopupActive] = React.useState(false);
 
   //  ------------------handleCardClick-------------------------
   function handleCardClick() {
-    setIsPopupActive((prevState) => !prevState);
-    window.addEventListener("keydown", handleEsc);
-    window.addEventListener("click", handleOverlayClick);
-
-    function handleEsc(evt) {
-      if (evt.key === "Escape") {
-        setIsPopupActive(false);
-        window.removeEventListener("keydown", handleEsc);
-        window.removeEventListener("click", handleOverlayClick);
-      }
-    }
-
-    function handleOverlayClick(evt) {
-      if (evt.target.classList.contains("popupwithimage_active")) {
-        setIsPopupActive(false);
-        window.removeEventListener("click", handleOverlayClick);
-        window.removeEventListener("keydown", handleEsc);
-      }
-    }
+    props.onCardClick(props.card);
   }
 
   //  ------------------handleDeleteClick-------------------------
@@ -64,28 +44,6 @@ export default function Card(props) {
   //-----------------------Return JSX--------------------
   return (
     <>
-      <div
-        className={
-          isPopupActive
-            ? "popupwithimage popupwithimage_active"
-            : "popupwithimage"
-        }
-      >
-        <div className="popupwithimage__wrapper">
-          <img
-            src={CloseButton}
-            alt="ícone X de fechar a janela"
-            className="popupwithimage__close-button"
-            onClick={handleCardClick}
-          />
-          <img
-            src={props.link}
-            className="popupwithimage__image-big"
-            alt={props.name}
-          />
-          <p>{props.name}</p>
-        </div>
-      </div>
       <li className="card" id="">
         <button
           className="card__delete-button"

@@ -52,7 +52,7 @@ function PopupWithForm(props) {
           className="popup__submit-button"
           type="submit"
           onClick={props.onSubmit}
-          disabled={true}
+          // disabled={true}
         >
           {props.buttonLabel}
         </button>

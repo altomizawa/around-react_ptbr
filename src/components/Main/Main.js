@@ -1,6 +1,5 @@
 import React from "react";
 
-import "./Main.css";
 import PencilButton from "../../images/Pencil.svg";
 import AddButton from "../../images/Plus-sign.svg";
 import PopupWithForm from "../PopupWithForm";
@@ -11,13 +10,25 @@ const userData = await clientApi.getUser();
 const initialArray = await clientApi.getCardArray();
 
 function Main(props) {
-  const initialArrayData = initialArray.map((card) => (
-    <Card key={card._id} {...card} />
+  // --------------------MAP CARDS-------------------------
+  const cardsData = initialArray.map((card) => (
+    <Card
+      key={card._id}
+      {...card}
+      card={card}
+      onCardClick={props.handleCardClick}
+    />
   ));
 
-  // --------------------PREVENT DEFAULT-------------------------
+  //---------------------Variables----------------------
+  const [userName, setUserName] = React.useState(userData.name);
+  const [userDescription, setUserDescription] = React.useState(userData.about);
+  const [userAvatar, setUserAvatar] = React.useState(userData.avatar);
+
+  // --------------------FORM SUBMISSION PREVENT DEFAULT-------------------------
   function submitHandler(evt) {
     evt.preventDefault();
+    props.onClose();
   }
 
   // --------------------GET FORM DATA------------------------
@@ -28,6 +39,7 @@ function Main(props) {
     newCard: "",
   });
 
+  // --------------------SHOW FORM DATA------------------------
   function handleInputChange(evt) {
     console.log(evt.target.value);
   }
@@ -147,15 +159,11 @@ function Main(props) {
               />
             </div>
 
-            <img
-              src={userData.avatar}
-              alt="Avatar"
-              className="profile__picture"
-            />
+            <img src={userAvatar} alt="Avatar" className="profile__picture" />
           </div>
           <div className="profile__text-wrapper">
             <div className="profile__name-wrapper">
-              <h1 className="profile__name">{userData.name}</h1>
+              <h1 className="profile__name">{userName}</h1>
               <button
                 onClick={props.onEditProfileClick}
                 className="profile__edit"
@@ -163,7 +171,7 @@ function Main(props) {
                 <img src={PencilButton} alt="ilustração de um lápis" />
               </button>
             </div>
-            <h2 className="profile__title">{userData.about}</h2>
+            <h2 className="profile__title">{userDescription}</h2>
           </div>
         </div>
 
@@ -178,7 +186,7 @@ function Main(props) {
       </div>
 
       {/* <!-- ------------------------CARD GRID------------------------------ --> */}
-      <ul className="cards">{initialArrayData}</ul>
+      <ul className="cards">{cardsData}</ul>
     </main>
   );
 }

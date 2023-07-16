@@ -78,7 +78,7 @@ export class Api {
       });
   }
 
-  getCardArray() {
+  async getCardArray() {
     return fetch(`${this._url}/cards`, {
       method: "GET",
       headers: {

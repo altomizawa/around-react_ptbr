@@ -1,4 +1,3 @@
-import "./Header.css";
 import Logo from "../../images/Around_the_US.svg";
 
 function Header() {
