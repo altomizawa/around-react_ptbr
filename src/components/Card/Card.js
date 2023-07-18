@@ -14,7 +14,6 @@ export default function Card(props) {
   });
   const [isThisCardLiked, setIsThisCardLiked] = React.useState(myCardLikes);
   const isThisMyCard = thisUser._id === props.owner._id;
-  //const [isPopupActive, setIsPopupActive] = React.useState(false);
 
   //  ------------------handleCardClick-------------------------
   function handleCardClick() {

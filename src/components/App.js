@@ -57,6 +57,7 @@ export default function App() {
         onClose={closeAllPopups}
       />
       <Footer />
+
       {selectedCard && (
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
       )}

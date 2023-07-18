@@ -4,13 +4,15 @@ import PencilButton from "../../images/Pencil.svg";
 import AddButton from "../../images/Plus-sign.svg";
 import PopupWithForm from "../PopupWithForm";
 import Card from "../Card/Card";
-import { clientApi } from "../constants";
+import { clientApi, thisUser } from "../constants";
 
 const userData = await clientApi.getUser();
 const initialArray = await clientApi.getCardArray();
 
 function Main(props) {
   // --------------------MAP CARDS-------------------------
+  const [cards, setCards] = React.useState(initialArray);
+
   const cardsData = initialArray.map((card) => (
     <Card
       key={card._id}
@@ -25,9 +27,19 @@ function Main(props) {
   const [userDescription, setUserDescription] = React.useState(userData.about);
   const [userAvatar, setUserAvatar] = React.useState(userData.avatar);
 
-  // --------------------FORM SUBMISSION PREVENT DEFAULT-------------------------
-  function submitHandler(evt) {
+  // --------------------FORM SUBMISSION - PROFILE-------------------------
+  function submitProfileHandler(evt) {
     evt.preventDefault();
+    clientApi.updateProfile(formData);
+    props.onClose();
+  }
+
+  // --------------------FORM SUBMISSION - CARD-------------------------
+  function submitCardHandler(evt) {
+    evt.preventDefault();
+    console.log(formData);
+    clientApi.addCard(formData.card, formData.cardLink);
+    setCards((prevArray) => [...prevArray, formData]);
     props.onClose();
   }
 
@@ -36,12 +48,17 @@ function Main(props) {
     name: "",
     about: "",
     avatar: "",
-    newCard: "",
+    card: "",
+    cardLink: "",
   });
 
   // --------------------SHOW FORM DATA------------------------
   function handleInputChange(evt) {
-    console.log(evt.target.value);
+    const { name, value } = evt.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   }
 
   return (
@@ -53,9 +70,9 @@ function Main(props) {
             title="Alterar a foto do perfil"
             name="profile_avatar"
             buttonLabel="Salvar"
-            onSubmit={submitHandler}
             isPopupActive={props.isEditAvatarPopupOpen}
             onClose={props.onClose}
+            onSubmit={submitProfileHandler}
           >
             <input
               id="profile-link-input"
@@ -65,6 +82,7 @@ function Main(props) {
               placeholder="Link da imagem"
               required
               onChange={handleInputChange}
+              value={formData.avatar}
             />
 
             <span
@@ -80,9 +98,9 @@ function Main(props) {
             title="Editar perfil"
             name="profile_info"
             buttonLabel="Alterar"
-            onSubmit={submitHandler}
             isPopupActive={props.isEditProfilePopupOpen}
             onClose={props.onClose}
+            onSubmit={submitProfileHandler}
           >
             <input
               id="profile-name-input"
@@ -92,6 +110,7 @@ function Main(props) {
               placeholder={userData.name}
               required
               onChange={handleInputChange}
+              value={formData.name}
             />
             <input
               id="profile-profession-input"
@@ -101,6 +120,7 @@ function Main(props) {
               placeholder={userData.about}
               required
               onChange={handleInputChange}
+              value={formData.about}
             />
             <span
               className="popup__input-error card-link-input-error"
@@ -113,29 +133,31 @@ function Main(props) {
         {
           <PopupWithForm
             title="Novo local"
-            name="anewcard"
+            name="newCard"
             buttonLabel="Criar"
-            onSubmit={submitHandler}
             isPopupActive={props.isAddPlacePopupOpen}
             onClose={props.onClose}
+            onSubmit={submitCardHandler}
           >
             <input
               id="profile-name-input"
-              name="name"
+              name="card"
               type="text"
               className="popup__input popup__input_profile-name"
               placeholder="Título"
               required
               onChange={handleInputChange}
+              value={formData.card}
             />
             <input
               id="profile-link-input"
-              name="link"
+              name="cardLink"
               type="url"
               className="popup__input popup__input_profile-link"
               placeholder="Link da imagem"
               required
               onChange={handleInputChange}
+              value={formData.cardLink}
             />
 
             <span
