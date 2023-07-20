@@ -14,15 +14,11 @@ export default function Card(props) {
   const [isThisCardLiked, setIsThisCardLiked] = React.useState(myCardLikes);
   const isThisMyCard = thisUser._id === props.owner._id;
 
-  //  ------------------handleCardClick-------------------------
+  //  ------------------CardClick-------------------------
   function handleCardClick() {
     props.onCardClick(props.card);
   }
 
-  //  ------------------handleDeleteClick-------------------------
-  const handleDeleteClick = async () => {
-    await clientApi.removeCard(props._id);
-  };
 
   //  ------------------handleLikeClick-------------------------
   async function handleLikeClick(evt) {
@@ -46,7 +42,7 @@ export default function Card(props) {
         <button
           className="card__delete-button"
           style={{ display: isThisMyCard ? "block" : "none" }}
-          onClick={handleDeleteClick}
+          onClick={() => props.handleCardDelete(props._id)}
         >
           <img
             src={trashCanActive}

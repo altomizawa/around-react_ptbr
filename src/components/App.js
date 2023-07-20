@@ -16,6 +16,25 @@ export default function App() {
     .catch((err) => console.log(err)); 
     },[]);
 
+  // ------------------Create Card-------------------------
+  function handleSubmit(card) {
+    clientApi
+      .addCard(card)
+      .then(res => res.json())
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+      })
+      .catch((err) => console.log(err));
+  }
+
+  //-------------------Delete Card-------------------------
+  function handleCardDelete(cardId) {
+    clientApi.removeCard(cardId)
+    .then(() => {setCards(cards.filter((c) => c._id !== cardId))})
+    .catch((err) => {console.log(err);});
+    }
+
+
     //------------------Set User Data-------------------------
     const [user, setUser] = React.useState({});
     React.useEffect(() => {
@@ -75,9 +94,10 @@ export default function App() {
         onAddPlaceClick={handleAddPlaceClick}
         onClose={closeAllPopups}
         cards={cards}
-        setCards={setCards}
+        handleSubmit={handleSubmit}
         user={user}
         setUser={setUser}
+        handleCardDelete={handleCardDelete}
       />
       <Footer />
 

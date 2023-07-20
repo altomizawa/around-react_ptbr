@@ -99,7 +99,7 @@ export class Api {
       });
   }
 
-  async addCard(cardTitle, cardLink) {
+  async addCard(card) {
     return await fetch(`${this._url}/cards`, {
       method: "POST",
       headers: {
@@ -107,17 +107,10 @@ export class Api {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: cardTitle,
-        link: cardLink,
+        name: card.cardName,
+        link: card.cardLink,
       }),
     })
-      .then((res) => {
-        if (res.ok) {
-          res.json();
-        }
-        return Promise.reject(`Error ${res.status}`);
-      })
-
       .catch((err) => {
         console.log(err);
       });
@@ -131,17 +124,6 @@ export class Api {
         "Content-Type": "application/json",
       },
     })
-      .then((res) => {
-        if (res.ok) {
-          res.json();
-        }
-        return Promise.reject(`Error: ${res.status}`);
-      })
-
-      .catch((err) => {
-        console.log(err);
-      });
-
     // .finally(() => {
     //   button.textContent = "SIM";
     // });

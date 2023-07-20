@@ -7,12 +7,13 @@ import Card from "../Card/Card";
 
 function Main(props) {
   // --------------------MAP CARDS-------------------------
-  const cardsData = props.cards.map((card) => (
+  const cardsData = props.cards.map((card, i) => (
     <Card
-      key={card._id}
+      key={i}
       {...card}
       card={card}
       onCardClick={props.handleCardClick}
+      handleCardDelete={props.handleCardDelete}
     />
   ));
 
@@ -27,8 +28,8 @@ function Main(props) {
   // --------------------FORM SUBMISSION PREVENT DEFAULT-------------------------
   function submitHandler(evt) {
     evt.preventDefault();
+    props.handleSubmit(formData);
     props.onClose();
-    console.log(userName, userDescription, userAvatar)
   }
 
   // --------------------GET FORM DATA------------------------
@@ -36,8 +37,8 @@ function Main(props) {
     name: "",
     about: "",
     avatar: "",
-    newCard: "",
-    newCardLink: "",
+    cardName: "",
+    cardLink: "",
   });
 
   // --------------------SHOW FORM DATA------------------------
@@ -47,6 +48,8 @@ function Main(props) {
       ...formData,
       [name]: value,
     });
+    //----------------FORM VALIDATION-------------------
+    formData.avatar.length <10 ? console.log("menor que 10") : console.log("maior que 10")  
   }
 
   return (
@@ -70,6 +73,7 @@ function Main(props) {
               placeholder="Link da imagem"
               required
               onChange={handleInputChange}
+              value={formData.avatar}
             />
 
             <span
@@ -97,6 +101,7 @@ function Main(props) {
               placeholder={props.user.name}
               required
               onChange={handleInputChange}
+              value={formData.name}
             />
             <input
               id="profile-profession-input"
@@ -106,6 +111,7 @@ function Main(props) {
               placeholder={props.user.about}
               required
               onChange={handleInputChange}
+              value={formData.about}
             />
             <span
               className="popup__input-error card-link-input-error"
