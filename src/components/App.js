@@ -2,10 +2,29 @@ import React from "react";
 import Header from "./Header/Header";
 import Main from "./Main/Main";
 import Footer from "./Footer/Footer";
-import Card from "./Card/Card";
 import ImagePopup from "./ImagePopup";
+import { clientApi } from "./constants";
+
 
 export default function App() {
+  // ------------------Set Cards Array-------------------------
+  const [cards, setCards] = React.useState([]);  
+
+  React.useEffect(() => {
+    clientApi.getCardArray()
+    .then(data => setCards(data))
+    .catch((err) => console.log(err)); 
+    },[]);
+
+    //------------------Set User Data-------------------------
+    const [user, setUser] = React.useState({});
+    React.useEffect(() => {
+      clientApi.getUser()
+      .then((data) => {
+        setUser(data)})
+    },[])
+
+
   // ------------------Variables-------------------------
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
     React.useState(false);
@@ -55,6 +74,10 @@ export default function App() {
         onEditAvatarClick={handleEditAvatarClick}
         onAddPlaceClick={handleAddPlaceClick}
         onClose={closeAllPopups}
+        cards={cards}
+        setCards={setCards}
+        user={user}
+        setUser={setUser}
       />
       <Footer />
 

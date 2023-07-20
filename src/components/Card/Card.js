@@ -3,7 +3,6 @@ import React from "react";
 import trashCanActive from "../../images/trashCan.svg";
 import trashCanInactive from "../../images/trashCan_grey.svg";
 import heartActive from "../../images/heart_active.svg";
-import CloseButton from "../../images/Close_Icon.svg";
 import heart from "../../images/heart.svg";
 import { clientApi, thisUser } from "../constants";
 

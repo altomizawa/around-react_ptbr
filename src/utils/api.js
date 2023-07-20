@@ -25,7 +25,7 @@ export class Api {
       });
   }
 
-  updateProfile(userInfo) {
+  updateProfile(userInfo, button) {
     return fetch(`${this._url}/users/me`, {
       method: "PATCH",
       headers: {
@@ -44,11 +44,11 @@ export class Api {
         return Promise.reject(`Error: ${res.status}`);
       })
 
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
 
-    // .finally(() => {
-    //   button.textContent = "Salvar";
-    // });
+      .finally(() => {
+        button.textContent = "Salvar";
+      });
   }
 
   updateProfilePicture(userInfo, button) {

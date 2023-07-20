@@ -4,16 +4,10 @@ import PencilButton from "../../images/Pencil.svg";
 import AddButton from "../../images/Plus-sign.svg";
 import PopupWithForm from "../PopupWithForm";
 import Card from "../Card/Card";
-import { clientApi, thisUser } from "../constants";
-
-const userData = await clientApi.getUser();
-const initialArray = await clientApi.getCardArray();
 
 function Main(props) {
   // --------------------MAP CARDS-------------------------
-  const [cards, setCards] = React.useState(initialArray);
-
-  const cardsData = initialArray.map((card) => (
+  const cardsData = props.cards.map((card) => (
     <Card
       key={card._id}
       {...card}
@@ -23,24 +17,18 @@ function Main(props) {
   ));
 
   //---------------------Variables----------------------
-  const [userName, setUserName] = React.useState(userData.name);
-  const [userDescription, setUserDescription] = React.useState(userData.about);
-  const [userAvatar, setUserAvatar] = React.useState(userData.avatar);
+  const [userName, setUserName] = React.useState("");
+  const [userDescription, setUserDescription] = React.useState("");
+  const [userAvatar, setUserAvatar] = React.useState("");
+  React.useEffect(() => {setUserName(props.user.name)}, [props.user.name]);
+  React.useEffect(() => {setUserDescription(props.user.about)}, [props.user.about]);
+  React.useEffect(() => {setUserAvatar(props.user.avatar)}, [props.user.avatar]);
 
-  // --------------------FORM SUBMISSION - PROFILE-------------------------
-  function submitProfileHandler(evt) {
+  // --------------------FORM SUBMISSION PREVENT DEFAULT-------------------------
+  function submitHandler(evt) {
     evt.preventDefault();
-    clientApi.updateProfile(formData);
     props.onClose();
-  }
-
-  // --------------------FORM SUBMISSION - CARD-------------------------
-  function submitCardHandler(evt) {
-    evt.preventDefault();
-    console.log(formData);
-    clientApi.addCard(formData.card, formData.cardLink);
-    setCards((prevArray) => [...prevArray, formData]);
-    props.onClose();
+    console.log(userName, userDescription, userAvatar)
   }
 
   // --------------------GET FORM DATA------------------------
@@ -48,8 +36,8 @@ function Main(props) {
     name: "",
     about: "",
     avatar: "",
-    card: "",
-    cardLink: "",
+    newCard: "",
+    newCardLink: "",
   });
 
   // --------------------SHOW FORM DATA------------------------
@@ -70,9 +58,9 @@ function Main(props) {
             title="Alterar a foto do perfil"
             name="profile_avatar"
             buttonLabel="Salvar"
+            onSubmit={submitHandler}
             isPopupActive={props.isEditAvatarPopupOpen}
             onClose={props.onClose}
-            onSubmit={submitProfileHandler}
           >
             <input
               id="profile-link-input"
@@ -82,7 +70,6 @@ function Main(props) {
               placeholder="Link da imagem"
               required
               onChange={handleInputChange}
-              value={formData.avatar}
             />
 
             <span
@@ -98,29 +85,27 @@ function Main(props) {
             title="Editar perfil"
             name="profile_info"
             buttonLabel="Alterar"
+            onSubmit={submitHandler}
             isPopupActive={props.isEditProfilePopupOpen}
             onClose={props.onClose}
-            onSubmit={submitProfileHandler}
           >
             <input
               id="profile-name-input"
               name="name"
               type="text"
               className="popup__input popup__input_profile-name"
-              placeholder={userData.name}
+              placeholder={props.user.name}
               required
               onChange={handleInputChange}
-              value={formData.name}
             />
             <input
               id="profile-profession-input"
               name="about"
               type="text"
               className="popup__input popup__input_profile-profession"
-              placeholder={userData.about}
+              placeholder={props.user.about}
               required
               onChange={handleInputChange}
-              value={formData.about}
             />
             <span
               className="popup__input-error card-link-input-error"
@@ -133,21 +118,20 @@ function Main(props) {
         {
           <PopupWithForm
             title="Novo local"
-            name="newCard"
+            name="newcard"
             buttonLabel="Criar"
+            onSubmit={submitHandler}
             isPopupActive={props.isAddPlacePopupOpen}
             onClose={props.onClose}
-            onSubmit={submitCardHandler}
           >
             <input
               id="profile-name-input"
-              name="card"
+              name="cardName"
               type="text"
               className="popup__input popup__input_profile-name"
               placeholder="Título"
               required
               onChange={handleInputChange}
-              value={formData.card}
             />
             <input
               id="profile-link-input"
@@ -157,7 +141,6 @@ function Main(props) {
               placeholder="Link da imagem"
               required
               onChange={handleInputChange}
-              value={formData.cardLink}
             />
 
             <span

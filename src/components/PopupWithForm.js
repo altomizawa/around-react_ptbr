@@ -6,7 +6,6 @@ function PopupWithForm(props) {
     if (evt.target.classList.contains(`popup_${props.name}`)) {
       props.onClose();
       removeEventListeners();
-      console.log("overlay");
     }
   };
 
@@ -31,7 +30,7 @@ function PopupWithForm(props) {
 
   return (
     <div
-      className={`popup popup_${props.input} ${
+      className={`popup popup_${props.name} ${
         props.isPopupActive && "popup_active"
       }`}
     >
