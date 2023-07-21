@@ -14,6 +14,7 @@ function Main(props) {
       card={card}
       onCardClick={props.handleCardClick}
       handleCardDelete={props.handleCardDelete}
+      selectedCard={props.selectedCard}
     />
   ));
 

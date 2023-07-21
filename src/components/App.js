@@ -101,9 +101,9 @@ export default function App() {
       />
       <Footer />
 
-      {selectedCard && (
+      {/* {selectedCard && (
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
-      )}
+      )} */}
     </>
   );
 }

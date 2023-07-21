@@ -1,7 +1,7 @@
 import React from "react";
 import CloseButton from "../images/Close_Icon.svg";
 
-export default function imagePopUp(props) {
+export default function ImagePopUp(props) {
   window.addEventListener("keydown", handleEsc);
   window.addEventListener("click", handleOverlayClick);
 
@@ -22,7 +22,7 @@ export default function imagePopUp(props) {
   }
 
   return (
-    <div className="popupwithimage popupwithimage_active">
+    <div className= {props.isActive ? "popupwithimage popupwithimage_active" : "popupwithimage"}>
       <div className="popupwithimage__wrapper">
         <img
           src={CloseButton}
