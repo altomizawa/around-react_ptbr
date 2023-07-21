@@ -20,7 +20,6 @@ export default function Card(props) {
   //  ------------------CardClick-------------------------
   const[cardState, setCardstate] = React.useState(false)
   function handleCardClick() {
-    console.log(props.card)
     setCardstate(true)
   }
   
