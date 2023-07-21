@@ -1,5 +1,5 @@
 import React from "react";
-import CloseButton from "../images/Close_Icon.svg";
+import CloseButton from "../../images/Close_Icon.svg";
 
 export default function ImagePopUp(props) {
   window.addEventListener("keydown", handleEsc);

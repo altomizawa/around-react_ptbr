@@ -5,7 +5,7 @@ import trashCanInactive from "../../images/trashCan_grey.svg";
 import heartActive from "../../images/heart_active.svg";
 import heart from "../../images/heart.svg";
 import { clientApi, thisUser } from "../constants";
-import ImagePopUp from "../ImagePopup";
+import ImagePopUp from "../ImagePopup/ImagePopup";
 
 
 
