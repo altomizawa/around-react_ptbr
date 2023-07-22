@@ -5,13 +5,14 @@ import trashCanInactive from "../../images/trashCan_grey.svg";
 import heartActive from "../../images/heart_active.svg";
 import heart from "../../images/heart.svg";
 import { clientApi, thisUser } from "../constants";
-import ImagePopUp from "../ImagePopup/ImagePopup";
+import ImagePopUp from "../ImagePopup";
 
 
 
 export default function Card(props) {
+  
   // ------------------Variables-------------------------
-  const myCardLikes = props.likes.some((like) => {
+  const myCardLikes = props.card.likes.some((like) => {
     return like._id === thisUser._id;
   });
   const [isThisCardLiked, setIsThisCardLiked] = React.useState(myCardLikes);
@@ -42,7 +43,8 @@ export default function Card(props) {
   //-----------------------Return JSX--------------------
   return (
     <>
-      <ImagePopUp card={props.card} onClose={props.onClose}
+      <ImagePopUp 
+      card={props.card} 
       isActive={cardState}
       onClose={() => setCardstate(false)} 
       />
