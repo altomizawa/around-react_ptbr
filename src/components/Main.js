@@ -1,9 +1,9 @@
 import React from "react";
 
-import PencilButton from "../../images/Pencil.svg";
-import AddButton from "../../images/Plus-sign.svg";
-import PopupWithForm from "../PopupWithForm";
-import Card from "../Card/Card";
+import PencilButton from "../images/Pencil.svg";
+import AddButton from "../images/Plus-sign.svg";
+import PopupWithForm from "./PopupWithForm";
+import Card from "./Card";
 
 function Main(props) {
   console.log(props)
