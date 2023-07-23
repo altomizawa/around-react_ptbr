@@ -4,9 +4,9 @@ import PencilButton from "../images/Pencil.svg";
 import AddButton from "../images/Plus-sign.svg";
 import PopupWithForm from "./PopupWithForm";
 import Card from "./Card";
+import ImagePopUp from "./ImagePopup";
 
 function Main(props) {
-  console.log(props)
   // --------------------MAP CARDS-------------------------
   const cardsData = props.cards.map((card, i) => (
     <Card
