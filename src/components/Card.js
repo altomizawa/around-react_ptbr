@@ -7,10 +7,7 @@ import heart from "../images/heart.svg";
 import { clientApi, thisUser } from "./constants";
 import ImagePopUp from "./ImagePopup";
 
-
-
 export default function Card(props) {
-  
   // ------------------Variables-------------------------
   const myCardLikes = props.card.likes.some((like) => {
     return like._id === thisUser._id;
@@ -19,11 +16,10 @@ export default function Card(props) {
   const isThisMyCard = thisUser._id === props.owner._id;
 
   //  ------------------CardClick-------------------------
-  const[cardState, setCardstate] = React.useState(false)
+  const [cardState, setCardstate] = React.useState(false);
   function handleCardClick() {
-    setCardstate(true)
+    setCardstate(true);
   }
-  
 
   //  ------------------handleLikeClick-------------------------
   async function handleLikeClick(evt) {
@@ -43,11 +39,11 @@ export default function Card(props) {
   //-----------------------Return JSX--------------------
   return (
     <>
-      <ImagePopUp 
-      card={props.card} 
-      isActive={cardState}
-      onClose={() => setCardstate(false)} 
-      />
+      {/* <ImagePopUp
+        card={props.card}
+        isActive={cardState}
+        onClose={() => setCardstate(false)}
+      /> */}
       <li className="card" id="">
         <button
           className="card__delete-button"
@@ -69,7 +65,8 @@ export default function Card(props) {
           src={props.link}
           alt={props.name}
           className="card__image"
-          onClick={handleCardClick}
+          // onClick={handleCardClick}
+          onClick={() => props.onCardClick(props.card)}
         />
         <div className="card__description-wrapper">
           <h4 className="card__title">{props.name}</h4>

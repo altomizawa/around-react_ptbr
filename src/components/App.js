@@ -5,22 +5,22 @@ import Footer from "./Footer";
 import { clientApi } from "./constants";
 import ImagePopUp from "./ImagePopup";
 
-
 export default function App() {
   // ------------------Set Cards Array-------------------------
-  const [cards, setCards] = React.useState([]);  
+  const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
-    clientApi.getCardArray()
-    .then(data => setCards(data))
-    .catch((err) => console.log(err)); 
-    },[]);
+    clientApi
+      .getCardArray()
+      .then((data) => setCards(data))
+      .catch((err) => console.log(err));
+  }, []);
 
   // ------------------Create Card-------------------------
   function handleSubmit(card) {
     clientApi
       .addCard(card)
-      .then(res => res.json())
+      .then((res) => res.json())
       .then((newCard) => {
         setCards([newCard, ...cards]);
       })
@@ -29,20 +29,23 @@ export default function App() {
 
   //-------------------Delete Card-------------------------
   function handleCardDelete(cardId) {
-    clientApi.removeCard(cardId)
-    .then(() => {setCards(cards.filter((c) => c._id !== cardId))})
-    .catch((err) => {console.log(err);});
-    }
+    clientApi
+      .removeCard(cardId)
+      .then(() => {
+        setCards(cards.filter((c) => c._id !== cardId));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
-
-    //------------------Set User Data-------------------------
-    const [user, setUser] = React.useState({});
-    React.useEffect(() => {
-      clientApi.getUser()
-      .then((data) => {
-        setUser(data)})
-    },[])
-
+  //------------------Set User Data-------------------------
+  const [user, setUser] = React.useState({});
+  React.useEffect(() => {
+    clientApi.getUser().then((data) => {
+      setUser(data);
+    });
+  }, []);
 
   // ------------------Variables-------------------------
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
@@ -79,6 +82,8 @@ export default function App() {
     setSelectedCard(null);
   };
 
+  selectedCard && console.log(selectedCard);
+
   // ------------------JSX-------------------------
   return (
     <>
@@ -99,6 +104,14 @@ export default function App() {
         setUser={setUser}
         handleCardDelete={handleCardDelete}
       />
+      {selectedCard && (
+        <ImagePopUp
+          card={selectedCard}
+          onClose={closeAllPopups}
+          isActive="true"
+        />
+      )}
+
       <Footer />
     </>
   );
