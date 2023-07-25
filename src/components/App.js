@@ -3,6 +3,7 @@ import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 import { clientApi } from "./constants";
+import ImagePopUp from "./ImagePopup";
 
 
 export default function App() {
