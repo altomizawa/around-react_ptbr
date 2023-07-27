@@ -44,11 +44,11 @@ export class Api {
         return Promise.reject(`Error: ${res.status}`);
       })
 
-      .catch((err) => console.log(err))
+      .catch((err) => console.log(err));
 
-      .finally(() => {
-        button.textContent = "Salvar";
-      });
+    // .finally(() => {
+    //   button.textContent = "Salvar";
+    // });
   }
 
   updateProfilePicture(userInfo, button) {
@@ -71,11 +71,11 @@ export class Api {
 
       .catch((err) => {
         console.log(err);
-      })
-
-      .finally(() => {
-        button.textContent = "Salvar";
       });
+
+    // .finally(() => {
+    //   button.textContent = "Salvar";
+    // });
   }
 
   async getCardArray() {
@@ -110,10 +110,9 @@ export class Api {
         name: card.cardName,
         link: card.cardLink,
       }),
-    })
-      .catch((err) => {
-        console.log(err);
-      });
+    }).catch((err) => {
+      console.log(err);
+    });
   }
 
   async removeCard(cardId, button) {
@@ -123,7 +122,7 @@ export class Api {
         Authorization: this._authorization,
         "Content-Type": "application/json",
       },
-    })
+    });
     // .finally(() => {
     //   button.textContent = "SIM";
     // });

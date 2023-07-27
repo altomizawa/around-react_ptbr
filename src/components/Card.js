@@ -5,7 +5,6 @@ import trashCanInactive from "../images/trashCan_grey.svg";
 import heartActive from "../images/heart_active.svg";
 import heart from "../images/heart.svg";
 import { clientApi, thisUser } from "./constants";
-import ImagePopUp from "./ImagePopup";
 
 export default function Card(props) {
   // ------------------Variables-------------------------
@@ -14,12 +13,6 @@ export default function Card(props) {
   });
   const [isThisCardLiked, setIsThisCardLiked] = React.useState(myCardLikes);
   const isThisMyCard = thisUser._id === props.owner._id;
-
-  //  ------------------CardClick-------------------------
-  const [cardState, setCardstate] = React.useState(false);
-  function handleCardClick() {
-    setCardstate(true);
-  }
 
   //  ------------------handleLikeClick-------------------------
   async function handleLikeClick(evt) {
@@ -39,11 +32,6 @@ export default function Card(props) {
   //-----------------------Return JSX--------------------
   return (
     <>
-      {/* <ImagePopUp
-        card={props.card}
-        isActive={cardState}
-        onClose={() => setCardstate(false)}
-      /> */}
       <li className="card" id="">
         <button
           className="card__delete-button"

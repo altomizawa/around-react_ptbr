@@ -23,14 +23,38 @@ function Main(props) {
   const [userName, setUserName] = React.useState("");
   const [userDescription, setUserDescription] = React.useState("");
   const [userAvatar, setUserAvatar] = React.useState("");
-  React.useEffect(() => {setUserName(props.user.name)}, [props.user.name]);
-  React.useEffect(() => {setUserDescription(props.user.about)}, [props.user.about]);
-  React.useEffect(() => {setUserAvatar(props.user.avatar)}, [props.user.avatar]);
+  React.useEffect(() => {
+    setUserName(props.user.name);
+  }, [props.user.name]);
+  React.useEffect(() => {
+    setUserDescription(props.user.about);
+  }, [props.user.about]);
+  React.useEffect(() => {
+    setUserAvatar(props.user.avatar);
+  }, [props.user.avatar]);
 
-  // --------------------FORM SUBMISSION PREVENT DEFAULT-------------------------
-  function submitHandler(evt) {
+  // --------------------FORM SUBMISSION - CARD -------------------------
+  function NewCardsubmitHandler(evt) {
     evt.preventDefault();
-    props.handleSubmit(formData);
+    props.handleNewCardSubmit(formData);
+    resetFormFields();
+    props.onClose();
+  }
+
+  // --------------------FORM SUBMISSION - PROFILE -------------------------
+  function editProfileSubmitHandler(evt) {
+    console.log(formData);
+    evt.preventDefault();
+    props.handleProfileSubmit(formData, evt.target);
+    resetFormFields();
+    props.onClose();
+  }
+
+  // --------------------FORM SUBMISSION - AVATAR -------------------------
+  function editAvatarSubmitHandler(evt) {
+    evt.preventDefault();
+    props.handleAvatarSubmit(formData);
+    resetFormFields();
     props.onClose();
   }
 
@@ -43,6 +67,16 @@ function Main(props) {
     cardLink: "",
   });
 
+  function resetFormFields() {
+    setFormData({
+      name: "",
+      about: "",
+      avatar: "",
+      cardName: "",
+      cardLink: "",
+    });
+  }
+
   // --------------------SHOW FORM DATA------------------------
   function handleInputChange(evt) {
     const { name, value } = evt.target;
@@ -51,11 +85,17 @@ function Main(props) {
       [name]: value,
     });
     //----------------FORM VALIDATION-------------------
-    formData.avatar.length <10 ? console.log("menor que 10") : console.log("maior que 10")  
   }
 
   return (
     <main>
+      {props.selectedCard && (
+        <ImagePopUp
+          card={props.selectedCard}
+          onClose={props.onClose}
+          isActive={props.isImagePopupOpen}
+        />
+      )}
       <div className="profile">
         {/* <!-- ------------------------PROFILE AVATAR FORM------------------------------ --> */}
         {
@@ -63,7 +103,7 @@ function Main(props) {
             title="Alterar a foto do perfil"
             name="profile_avatar"
             buttonLabel="Salvar"
-            onSubmit={submitHandler}
+            onSubmit={editAvatarSubmitHandler}
             isPopupActive={props.isEditAvatarPopupOpen}
             onClose={props.onClose}
           >
@@ -91,7 +131,7 @@ function Main(props) {
             title="Editar perfil"
             name="profile_info"
             buttonLabel="Alterar"
-            onSubmit={submitHandler}
+            onSubmit={editProfileSubmitHandler}
             isPopupActive={props.isEditProfilePopupOpen}
             onClose={props.onClose}
           >
@@ -128,7 +168,7 @@ function Main(props) {
             title="Novo local"
             name="newcard"
             buttonLabel="Criar"
-            onSubmit={submitHandler}
+            onSubmit={NewCardsubmitHandler}
             isPopupActive={props.isAddPlacePopupOpen}
             onClose={props.onClose}
           >
@@ -140,6 +180,7 @@ function Main(props) {
               placeholder="Título"
               required
               onChange={handleInputChange}
+              value={formData.cardName}
             />
             <input
               id="profile-link-input"
@@ -149,6 +190,7 @@ function Main(props) {
               placeholder="Link da imagem"
               required
               onChange={handleInputChange}
+              value={formData.cardLink}
             />
 
             <span

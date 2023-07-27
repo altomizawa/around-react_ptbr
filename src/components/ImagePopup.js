@@ -22,7 +22,7 @@ export default function ImagePopUp(props) {
   }
 
   return (
-    <div className= {props.isActive ? "popupwithimage popupwithimage_active" : "popupwithimage"}>
+    <div className={"popupwithimage popupwithimage_active"}>
       <div className="popupwithimage__wrapper">
         <img
           src={CloseButton}

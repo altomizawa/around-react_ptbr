@@ -17,7 +17,7 @@ export default function App() {
   }, []);
 
   // ------------------Create Card-------------------------
-  function handleSubmit(card) {
+  function handleNewCardSubmit(card) {
     clientApi
       .addCard(card)
       .then((res) => res.json())
@@ -47,6 +47,10 @@ export default function App() {
     });
   }, []);
 
+  //------------------Edit Profile-------------------------
+  // function editProfileSubmitHandler(user) {
+  //   clientApi.updateProfile(user)
+
   // ------------------Variables-------------------------
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
     React.useState(false);
@@ -73,6 +77,14 @@ export default function App() {
     setSelectedCard(card);
   };
 
+  const handleAvatarSubmit = (user, button) => {
+    clientApi.updateProfilePicture(user, button).then((data) => setUser(data));
+  };
+
+  const handleProfileSubmit = (user, button) => {
+    clientApi.updateProfile(user, button).then((data) => setUser(data));
+  };
+
   // ------------------Functions-------------------------
 
   const closeAllPopups = () => {
@@ -81,8 +93,6 @@ export default function App() {
     setIsAddPlacePopupOpen(false);
     setSelectedCard(null);
   };
-
-  selectedCard && console.log(selectedCard);
 
   // ------------------JSX-------------------------
   return (
@@ -99,19 +109,13 @@ export default function App() {
         onAddPlaceClick={handleAddPlaceClick}
         onClose={closeAllPopups}
         cards={cards}
-        handleSubmit={handleSubmit}
+        handleNewCardSubmit={handleNewCardSubmit}
+        handleAvatarSubmit={handleAvatarSubmit}
+        handleProfileSubmit={handleProfileSubmit}
         user={user}
         setUser={setUser}
         handleCardDelete={handleCardDelete}
       />
-      {selectedCard && (
-        <ImagePopUp
-          card={selectedCard}
-          onClose={closeAllPopups}
-          isActive="true"
-        />
-      )}
-
       <Footer />
     </>
   );

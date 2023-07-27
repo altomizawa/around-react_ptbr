@@ -38,7 +38,7 @@ function PopupWithForm(props) {
         className="popup__card"
         autoComplete="off"
         noValidate
-        name="{props.name}"
+        name={props.name}
       >
         <img
           src={CloseButton}

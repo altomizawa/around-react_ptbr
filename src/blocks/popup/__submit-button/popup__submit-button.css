@@ -8,4 +8,5 @@
 
 .popup__submit-button:not([disabled]):hover {
   opacity: 80%;
+  transition: 200ms ease-out;
 }
