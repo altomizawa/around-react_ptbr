@@ -49,10 +49,9 @@ function PopupWithForm(props) {
         <h4 className="popup__title">{props.title}</h4>
         {props.children}
         <button
-          className="popup__submit-button"
+          className="popup__submit-button popup__submit-button_inactive"
           type="submit"
           onClick={props.onSubmit}
-          // disabled={true}
         >
           {props.buttonLabel}
         </button>

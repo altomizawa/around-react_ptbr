@@ -2,9 +2,7 @@ import React from "react";
 
 import PencilButton from "../images/Pencil.svg";
 import AddButton from "../images/Plus-sign.svg";
-import PopupWithForm from "./PopupWithForm";
 import Card from "./Card";
-import ImagePopUp from "./ImagePopup";
 
 function Main(props) {
   // --------------------MAP CARDS-------------------------
@@ -16,191 +14,16 @@ function Main(props) {
       onCardClick={props.handleCardClick}
       handleCardDelete={props.handleCardDelete}
       selectedCard={props.selectedCard}
+      user={props.user}
+      handleCardLike={props.handleCardLike}
+      handleCardDislike={props.handleCardDislike}
     />
   ));
 
-  //---------------------Variables----------------------
-  const [userName, setUserName] = React.useState("");
-  const [userDescription, setUserDescription] = React.useState("");
-  const [userAvatar, setUserAvatar] = React.useState("");
-  React.useEffect(() => {
-    setUserName(props.user.name);
-  }, [props.user.name]);
-  React.useEffect(() => {
-    setUserDescription(props.user.about);
-  }, [props.user.about]);
-  React.useEffect(() => {
-    setUserAvatar(props.user.avatar);
-  }, [props.user.avatar]);
-
-  // --------------------FORM SUBMISSION - CARD -------------------------
-  function NewCardsubmitHandler(evt) {
-    evt.preventDefault();
-    props.handleNewCardSubmit(formData);
-    resetFormFields();
-    props.onClose();
-  }
-
-  // --------------------FORM SUBMISSION - PROFILE -------------------------
-  function editProfileSubmitHandler(evt) {
-    console.log(formData);
-    evt.preventDefault();
-    props.handleProfileSubmit(formData, evt.target);
-    resetFormFields();
-    props.onClose();
-  }
-
-  // --------------------FORM SUBMISSION - AVATAR -------------------------
-  function editAvatarSubmitHandler(evt) {
-    evt.preventDefault();
-    props.handleAvatarSubmit(formData);
-    resetFormFields();
-    props.onClose();
-  }
-
-  // --------------------GET FORM DATA------------------------
-  const [formData, setFormData] = React.useState({
-    name: "",
-    about: "",
-    avatar: "",
-    cardName: "",
-    cardLink: "",
-  });
-
-  function resetFormFields() {
-    setFormData({
-      name: "",
-      about: "",
-      avatar: "",
-      cardName: "",
-      cardLink: "",
-    });
-  }
-
-  // --------------------SHOW FORM DATA------------------------
-  function handleInputChange(evt) {
-    const { name, value } = evt.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-    //----------------FORM VALIDATION-------------------
-  }
-
   return (
     <main>
-      {props.selectedCard && (
-        <ImagePopUp
-          card={props.selectedCard}
-          onClose={props.onClose}
-          isActive={props.isImagePopupOpen}
-        />
-      )}
+      {/* <!-- ------------------------PROFILE INFO------------------------------ --> */}
       <div className="profile">
-        {/* <!-- ------------------------PROFILE AVATAR FORM------------------------------ --> */}
-        {
-          <PopupWithForm
-            title="Alterar a foto do perfil"
-            name="profile_avatar"
-            buttonLabel="Salvar"
-            onSubmit={editAvatarSubmitHandler}
-            isPopupActive={props.isEditAvatarPopupOpen}
-            onClose={props.onClose}
-          >
-            <input
-              id="profile-link-input"
-              name="avatar"
-              type="url"
-              className="popup__input popup__input_profile-link"
-              placeholder="Link da imagem"
-              required
-              onChange={handleInputChange}
-              value={formData.avatar}
-            />
-
-            <span
-              className="popup__input-error card-link-input-error"
-              id="profile-link-input--error"
-            />
-          </PopupWithForm>
-        }
-
-        {/* <!-- ------------------------PROFILE INFO FORM------------------------------ --> */}
-        {
-          <PopupWithForm
-            title="Editar perfil"
-            name="profile_info"
-            buttonLabel="Alterar"
-            onSubmit={editProfileSubmitHandler}
-            isPopupActive={props.isEditProfilePopupOpen}
-            onClose={props.onClose}
-          >
-            <input
-              id="profile-name-input"
-              name="name"
-              type="text"
-              className="popup__input popup__input_profile-name"
-              placeholder={props.user.name}
-              required
-              onChange={handleInputChange}
-              value={formData.name}
-            />
-            <input
-              id="profile-profession-input"
-              name="about"
-              type="text"
-              className="popup__input popup__input_profile-profession"
-              placeholder={props.user.about}
-              required
-              onChange={handleInputChange}
-              value={formData.about}
-            />
-            <span
-              className="popup__input-error card-link-input-error"
-              id="profile-link-input--error"
-            />
-          </PopupWithForm>
-        }
-
-        {/* <!-- ------------------------NEW CARD FORM------------------------------ --> */}
-        {
-          <PopupWithForm
-            title="Novo local"
-            name="newcard"
-            buttonLabel="Criar"
-            onSubmit={NewCardsubmitHandler}
-            isPopupActive={props.isAddPlacePopupOpen}
-            onClose={props.onClose}
-          >
-            <input
-              id="profile-name-input"
-              name="cardName"
-              type="text"
-              className="popup__input popup__input_profile-name"
-              placeholder="Título"
-              required
-              onChange={handleInputChange}
-              value={formData.cardName}
-            />
-            <input
-              id="profile-link-input"
-              name="cardLink"
-              type="url"
-              className="popup__input popup__input_profile-link"
-              placeholder="Link da imagem"
-              required
-              onChange={handleInputChange}
-              value={formData.cardLink}
-            />
-
-            <span
-              className="popup__input-error card-link-input-error"
-              id="profile-link-input--error"
-            />
-          </PopupWithForm>
-        }
-
-        {/* <!-- ------------------------PROFILE INFO------------------------------ --> */}
         <div className="profile__info">
           <div
             className="profile__picture-wrapper"
@@ -213,12 +36,15 @@ function Main(props) {
                 className="profile__picture-icon"
               />
             </div>
-
-            <img src={userAvatar} alt="Avatar" className="profile__picture" />
+            <img
+              src={props.user.avatar}
+              alt="Avatar"
+              className="profile__picture"
+            />
           </div>
           <div className="profile__text-wrapper">
             <div className="profile__name-wrapper">
-              <h1 className="profile__name">{userName}</h1>
+              <h1 className="profile__name">{props.user.name}</h1>
               <button
                 onClick={props.onEditProfileClick}
                 className="profile__edit"
@@ -226,11 +52,11 @@ function Main(props) {
                 <img src={PencilButton} alt="ilustração de um lápis" />
               </button>
             </div>
-            <h2 className="profile__title">{userDescription}</h2>
+            <h2 className="profile__title">{props.user.about}</h2>
           </div>
         </div>
-
-        {/* <!-- ------------------------ADD NEW CARD BUTTON------------------------------ --> */}
+        {/* -- ------------------------ADD NEW CARD BUTTON------------------------------ --> */}{" "}
+        */}
         <button className="adicionar-button" onClick={props.onAddPlaceClick}>
           <img
             src={AddButton}
@@ -239,8 +65,7 @@ function Main(props) {
           />
         </button>
       </div>
-
-      {/* <!-- ------------------------CARD GRID------------------------------ --> */}
+      {/* -- ------------------------RENDER CARD LIST------------------------------ --> */}{" "}
       <ul className="cards">{cardsData}</ul>
     </main>
   );

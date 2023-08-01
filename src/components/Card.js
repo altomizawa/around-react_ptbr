@@ -4,27 +4,24 @@ import trashCanActive from "../images/trashCan.svg";
 import trashCanInactive from "../images/trashCan_grey.svg";
 import heartActive from "../images/heart_active.svg";
 import heart from "../images/heart.svg";
-import { clientApi, thisUser } from "./constants";
 
 export default function Card(props) {
   // ------------------Variables-------------------------
   const myCardLikes = props.card.likes.some((like) => {
-    return like._id === thisUser._id;
+    return like._id === props.user._id;
   });
   const [isThisCardLiked, setIsThisCardLiked] = React.useState(myCardLikes);
-  const isThisMyCard = thisUser._id === props.owner._id;
+  const isThisMyCard = props.user._id === props.owner._id;
 
   //  ------------------handleLikeClick-------------------------
   async function handleLikeClick(evt) {
     const likeCounter = evt.target.parentElement.querySelector(".card__likes");
 
     if (!isThisCardLiked) {
-      const response = await clientApi.sendLike(props._id);
-      likeCounter.textContent = response.likes.length;
+      props.handleCardLike(props._id, likeCounter);
       setIsThisCardLiked((prevState) => !prevState);
     } else {
-      const response = await clientApi.sendDislike(props._id);
-      likeCounter.textContent = response.likes.length;
+      props.handleCardDislike(props._id, likeCounter);
       setIsThisCardLiked((prevState) => !prevState);
     }
   }

@@ -11,18 +11,9 @@ export class Api {
         Authorization: this._authorization,
         "Content-Type": "application/json",
       },
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        //if server returns error, then:
-        return Promise.reject(`Error: ${res.status}`);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    }).catch((err) => {
+      console.log(err);
+    });
   }
 
   updateProfile(userInfo, button) {
@@ -36,19 +27,7 @@ export class Api {
         name: `${userInfo.name}`,
         about: `${userInfo.about}`,
       }),
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Error: ${res.status}`);
-      })
-
-      .catch((err) => console.log(err));
-
-    // .finally(() => {
-    //   button.textContent = "Salvar";
-    // });
+    }).catch((err) => console.log(err));
   }
 
   updateProfilePicture(userInfo, button) {
@@ -61,46 +40,25 @@ export class Api {
       body: JSON.stringify({
         avatar: `${userInfo.avatar}`,
       }),
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Error ${res.status}`);
-      })
-
-      .catch((err) => {
-        console.log(err);
-      });
-
-    // .finally(() => {
-    //   button.textContent = "Salvar";
-    // });
+    }).catch((err) => {
+      console.log(err);
+    });
   }
 
-  async getCardArray() {
+  getCardArray() {
     return fetch(`${this._url}/cards`, {
       method: "GET",
       headers: {
         Authorization: this._authorization,
         "Content-Type": "application/json",
       },
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        //if server returns error, then:
-        return Promise.reject(`Error: ${res.status}`);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    }).catch((err) => {
+      console.log(err);
+    });
   }
 
-  async addCard(card) {
-    return await fetch(`${this._url}/cards`, {
+  addCard(card) {
+    return fetch(`${this._url}/cards`, {
       method: "POST",
       headers: {
         Authorization: this._authorization,
@@ -115,17 +73,14 @@ export class Api {
     });
   }
 
-  async removeCard(cardId, button) {
-    return await fetch(`${this._url}/cards/${cardId}`, {
+  removeCard(cardId, button) {
+    return fetch(`${this._url}/cards/${cardId}`, {
       method: "DELETE",
       headers: {
         Authorization: this._authorization,
         "Content-Type": "application/json",
       },
     });
-    // .finally(() => {
-    //   button.textContent = "SIM";
-    // });
   }
 
   sendLike(cardId) {
@@ -135,17 +90,9 @@ export class Api {
         Authorization: this._authorization,
         "Content-Type": "application.json",
       },
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Error: ${res.status}`);
-      })
-
-      .catch((err) => {
-        console.log(err);
-      });
+    }).catch((err) => {
+      console.log(err);
+    });
   }
 
   sendDislike(cardId) {
@@ -155,16 +102,8 @@ export class Api {
         Authorization: this._authorization,
         "Content-Type": "application.json",
       },
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Error: ${res.status}`);
-      })
-
-      .catch((err) => {
-        console.log(err);
-      });
+    }).catch((err) => {
+      console.log(err);
+    });
   }
 }
