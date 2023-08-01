@@ -2,6 +2,7 @@ import React from "react";
 import CloseButton from "../images/Close_Icon.svg";
 
 export default function ImagePopUp(props) {
+  console.log(props.isImagePopupOpen);
   window.addEventListener("keydown", handleEsc);
   window.addEventListener("click", handleOverlayClick);
 
@@ -20,23 +21,26 @@ export default function ImagePopUp(props) {
       window.removeEventListener("keydown", handleEsc);
     }
   }
-
   return (
-    <div className="popupwithimage popupwithimage_active">
-      <div className="popupwithimage__wrapper">
-        <img
-          src={CloseButton}
-          alt="ícone X de fechar a janela"
-          className="popupwithimage__close-button"
-          onClick={props.onClose}
-        />
-        <img
-          src={props.card.link}
-          className="popupwithimage__image-big"
-          alt={props.card.name}
-        />
-        <p>{props.card.name}</p>
-      </div>
-    </div>
+    <>
+      {props.isImagePopupOpen && (
+        <div className="popupwithimage popupwithimage_active">
+          <div className="popupwithimage__wrapper">
+            <img
+              src={CloseButton}
+              alt="ícone X de fechar a janela"
+              className="popupwithimage__close-button"
+              onClick={props.onClose}
+            />
+            <img
+              src={props.card.link}
+              className="popupwithimage__image-big"
+              alt={props.card.name}
+            />
+            <p>{props.card.name}</p>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

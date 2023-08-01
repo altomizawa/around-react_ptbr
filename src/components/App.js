@@ -89,6 +89,8 @@ export default function App() {
 
   const [selectedCard, setSelectedCard] = React.useState(null);
 
+  const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
+
   // ------------------Event Handlers-------------------------
 
   const handleEditAvatarClick = () => {
@@ -105,6 +107,7 @@ export default function App() {
 
   const handleCardClick = (card) => {
     setSelectedCard(card);
+    setIsImagePopupOpen((prevState) => !prevState);
   };
 
   // ------------------Functions-------------------------
@@ -113,7 +116,7 @@ export default function App() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
-    setSelectedCard(null);
+    setIsImagePopupOpen(false);
   };
 
   // --------------------FORM SUBMISSION - CARD -------------------------
@@ -315,9 +318,13 @@ export default function App() {
       </PopupWithForm>
 
       {/* ----------------------------IMAGE POPUP-------------------------------- */}
-      {selectedCard && (
-        <ImagePopup card={selectedCard} onClose={closeAllPopups} />
-      )}
+
+      <ImagePopup
+        card={selectedCard}
+        onClose={closeAllPopups}
+        isImagePopupOpen={isImagePopupOpen}
+      />
+
       <Footer />
     </>
   );
