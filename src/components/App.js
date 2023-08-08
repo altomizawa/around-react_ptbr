@@ -1,10 +1,11 @@
-import React, {useContext} from "react";
+import React from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 import { clientApi } from "./constants";
 import ImagePopup from "./ImagePopup";
 import PopupWithForm from "./PopupWithForm";
+import EditProfilePopup from "./EditProfilePopup";
 
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
@@ -38,13 +39,13 @@ export default function App() {
       .then((data) => setCurrentUser(data));
   };
 
-  // ------------------Update Profile Function-------------------------
-  const handleProfileSubmit = (user, button) => {
-    clientApi
-      .updateProfile(user, button)
-      .then((res) => res.json())
-      .then((data) => setCurrentUser(data));
-  };
+  // // ------------------Update Profile Function-------------------------
+  // const handleProfileSubmit = (user, button) => {
+  //   clientApi
+  //     .updateProfile(user, button)
+  //     .then((res) => res.json())
+  //     .then((data) => setCurrentUser(data));
+  // };
 
   // ------------------Create Card Function-------------------------
   function handleNewCardSubmit(card) {
@@ -248,39 +249,7 @@ export default function App() {
         </PopupWithForm>
 
         {/* ----------------------------PROFILE FORM-------------------------------- */}
-        <PopupWithForm
-          title="Editar perfil"
-          name="profile_info"
-          buttonLabel="Alterar"
-          onSubmit={editProfileSubmitHandler}
-          isPopupActive={isEditProfilePopupOpen}
-          onClose={closeAllPopups}
-        >
-          <input
-            id="profile-name-input"
-            name="name"
-            type="text"
-            className="popup__input popup__input_profile-name"
-            placeholder={currentUser.name}
-            required
-            onChange={handleInputChange}
-            value={formData.name}
-          />
-          <input
-            id="profile-profession-input"
-            name="about"
-            type="text"
-            className="popup__input popup__input_profile-profession"
-            placeholder={currentUser.about}
-            required
-            onChange={handleInputChange}
-            value={formData.about}
-          />
-          <span
-            className="popup__input-error card-link-input-error"
-            id="profile-link-input--error"
-          />
-        </PopupWithForm>
+        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} />
 
         {/* <!-- ------------------------NEW CARD FORM------------------------------ --> */}
 

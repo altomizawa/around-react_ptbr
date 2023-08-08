@@ -7,19 +7,16 @@ import heart from "../images/heart.svg";
 
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
-export default function Card(props) {
+export default function Card(props) { 
   // ------------------Context-------------------------
   const currentUser = useContext(CurrentUserContext);
-  const {_id } = currentUser;
-  console.log(currentUser._id)
-
-  
+    
   // ------------------Variables-------------------------
   const myCardLikes = props.card.likes.some((like) => {
-    return like._id === _id;
+    return like._id === currentUser._id;
   });
   const [isThisCardLiked, setIsThisCardLiked] = React.useState(myCardLikes);
-  const isThisMyCard = _id === props.owner._id;
+  const isThisMyCard = currentUser._id === props.owner._id;
 
   //  ------------------handleLikeClick-------------------------
   async function handleLikeClick(evt) {

@@ -4,12 +4,12 @@ import PencilButton from "../images/Pencil.svg";
 import AddButton from "../images/Plus-sign.svg";
 import Card from "./Card";
 
+
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Main(props) {
   const currentUser = useContext(CurrentUserContext);
-  const { name, about, avatar } = currentUser;
-
+  const { name, about, avatar } = currentUser;     
 
   // --------------------MAP CARDS-------------------------
   const cardsData = props.cards.map((card, i) => (
