@@ -1,10 +1,12 @@
-import React from "react";
+import React, {useContext} from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 import { clientApi } from "./constants";
 import ImagePopup from "./ImagePopup";
 import PopupWithForm from "./PopupWithForm";
+
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 export default function App() {
   // ------------------Set Cards Array-------------------------
@@ -18,22 +20,22 @@ export default function App() {
   }, []);
 
   //------------------Set User Data-------------------------
-  const [user, setUser] = React.useState({});
+  const [currentUser, setCurrentUser] = React.useState({});
   React.useEffect(() => {
     clientApi
       .getUser()
       .then((res) => res.json())
       .then((data) => {
-        setUser(data);
+        setCurrentUser(data);
       });
-  }, []);
+  }, []);  
 
   // ------------------Update Avatar Function-------------------------
   const handleAvatarSubmit = (user, button) => {
     clientApi
       .updateProfilePicture(user, button)
       .then((res) => res.json())
-      .then((data) => setUser(data));
+      .then((data) => setCurrentUser(data));
   };
 
   // ------------------Update Profile Function-------------------------
@@ -41,7 +43,7 @@ export default function App() {
     clientApi
       .updateProfile(user, button)
       .then((res) => res.json())
-      .then((data) => setUser(data));
+      .then((data) => setCurrentUser(data));
   };
 
   // ------------------Create Card Function-------------------------
@@ -212,118 +214,120 @@ export default function App() {
   return (
     <>
       <Header />
-      <Main
-        selectedCard={selectedCard}
-        handleCardClick={handleCardClick}
-        onEditProfileClick={handleEditProfileClick}
-        onEditAvatarClick={handleEditAvatarClick}
-        onAddPlaceClick={handleAddPlaceClick}
-        cards={cards}
-        user={user}
-        handleCardDelete={handleCardDelete}
-        handleCardLike={handleCardLike}
-        handleCardDislike={handleCardDislike}
-      />
-      {/* <!-- ------------------------PROFILE AVATAR FORM------------------------------ --> */}
-      <PopupWithForm
-        title="Alterar a foto do perfil"
-        name="profile_avatar"
-        buttonLabel="Salvar"
-        onSubmit={editAvatarSubmitHandler}
-        isPopupActive={isEditAvatarPopupOpen}
-        onClose={closeAllPopups}
-      >
-        <input
-          id="profile-link-input"
-          name="avatar"
-          type="url"
-          className="popup__input popup__input_profile-link"
-          placeholder="Link da imagem"
-          required
-          onChange={handleInputChange}
-          value={formData.avatar}
-        ></input>
-      </PopupWithForm>
-
-      {/* ----------------------------PROFILE FORM-------------------------------- */}
-      <PopupWithForm
-        title="Editar perfil"
-        name="profile_info"
-        buttonLabel="Alterar"
-        onSubmit={editProfileSubmitHandler}
-        isPopupActive={isEditProfilePopupOpen}
-        onClose={closeAllPopups}
-      >
-        <input
-          id="profile-name-input"
-          name="name"
-          type="text"
-          className="popup__input popup__input_profile-name"
-          placeholder={user.name}
-          required
-          onChange={handleInputChange}
-          value={formData.name}
+      <CurrentUserContext.Provider value={currentUser}>
+        <Main
+          selectedCard={selectedCard}
+          handleCardClick={handleCardClick}
+          onEditProfileClick={handleEditProfileClick}
+          onEditAvatarClick={handleEditAvatarClick}
+          onAddPlaceClick={handleAddPlaceClick}
+          cards={cards}
+          handleCardDelete={handleCardDelete}
+          handleCardLike={handleCardLike}
+          handleCardDislike={handleCardDislike}
         />
-        <input
-          id="profile-profession-input"
-          name="about"
-          type="text"
-          className="popup__input popup__input_profile-profession"
-          placeholder={user.about}
-          required
-          onChange={handleInputChange}
-          value={formData.about}
-        />
-        <span
-          className="popup__input-error card-link-input-error"
-          id="profile-link-input--error"
-        />
-      </PopupWithForm>
+        {/* <!-- ------------------------PROFILE AVATAR FORM------------------------------ --> */}
+        <PopupWithForm
+          title="Alterar a foto do perfil"
+          name="profile_avatar"
+          buttonLabel="Salvar"
+          onSubmit={editAvatarSubmitHandler}
+          isPopupActive={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
+        >
+          <input
+            id="profile-link-input"
+            name="avatar"
+            type="url"
+            className="popup__input popup__input_profile-link"
+            placeholder="Link da imagem"
+            required
+            onChange={handleInputChange}
+            value={formData.avatar}
+          ></input>
+        </PopupWithForm>
 
-      {/* <!-- ------------------------NEW CARD FORM------------------------------ --> */}
+        {/* ----------------------------PROFILE FORM-------------------------------- */}
+        <PopupWithForm
+          title="Editar perfil"
+          name="profile_info"
+          buttonLabel="Alterar"
+          onSubmit={editProfileSubmitHandler}
+          isPopupActive={isEditProfilePopupOpen}
+          onClose={closeAllPopups}
+        >
+          <input
+            id="profile-name-input"
+            name="name"
+            type="text"
+            className="popup__input popup__input_profile-name"
+            placeholder={currentUser.name}
+            required
+            onChange={handleInputChange}
+            value={formData.name}
+          />
+          <input
+            id="profile-profession-input"
+            name="about"
+            type="text"
+            className="popup__input popup__input_profile-profession"
+            placeholder={currentUser.about}
+            required
+            onChange={handleInputChange}
+            value={formData.about}
+          />
+          <span
+            className="popup__input-error card-link-input-error"
+            id="profile-link-input--error"
+          />
+        </PopupWithForm>
 
-      <PopupWithForm
-        title="Novo local"
-        name="newcard"
-        buttonLabel="Criar"
-        onSubmit={NewCardsubmitHandler}
-        isPopupActive={isAddPlacePopupOpen}
-        onClose={closeAllPopups}
-      >
-        <input
-          id="profile-name-input"
-          name="cardName"
-          type="text"
-          className="popup__input popup__input_profile-name"
-          placeholder="Título"
-          required
-          onChange={handleInputChange}
-          value={formData.cardName}
+        {/* <!-- ------------------------NEW CARD FORM------------------------------ --> */}
+
+        <PopupWithForm
+          title="Novo local"
+          name="newcard"
+          buttonLabel="Criar"
+          onSubmit={NewCardsubmitHandler}
+          isPopupActive={isAddPlacePopupOpen}
+          onClose={closeAllPopups}
+        >
+          <input
+            id="profile-name-input"
+            name="cardName"
+            type="text"
+            className="popup__input popup__input_profile-name"
+            placeholder="Título"
+            required
+            onChange={handleInputChange}
+            value={formData.cardName}
+          />
+          <input
+            id="profile-link-input"
+            name="cardLink"
+            type="url"
+            className="popup__input popup__input_profile-link"
+            placeholder="Link da imagem"
+            required
+            onChange={handleInputChange}
+            value={formData.cardLink}
+          />
+
+          <span
+            className="popup__input-error card-link-input-error"
+            id="profile-link-input--error"
+          />
+        </PopupWithForm>
+
+        {/* ----------------------------IMAGE POPUP-------------------------------- */}
+
+        <ImagePopup
+          card={selectedCard}
+          onClose={closeAllPopups}
+          isImagePopupOpen={isImagePopupOpen}
         />
-        <input
-          id="profile-link-input"
-          name="cardLink"
-          type="url"
-          className="popup__input popup__input_profile-link"
-          placeholder="Link da imagem"
-          required
-          onChange={handleInputChange}
-          value={formData.cardLink}
-        />
 
-        <span
-          className="popup__input-error card-link-input-error"
-          id="profile-link-input--error"
-        />
-      </PopupWithForm>
-
-      {/* ----------------------------IMAGE POPUP-------------------------------- */}
-
-      <ImagePopup
-        card={selectedCard}
-        onClose={closeAllPopups}
-        isImagePopupOpen={isImagePopupOpen}
-      />
+      </CurrentUserContext.Provider>
 
       <Footer />
     </>

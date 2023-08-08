@@ -1,17 +1,25 @@
-import React from "react";
+import React, {useContext} from "react";
 
 import trashCanActive from "../images/trashCan.svg";
 import trashCanInactive from "../images/trashCan_grey.svg";
 import heartActive from "../images/heart_active.svg";
 import heart from "../images/heart.svg";
 
+import {CurrentUserContext} from "../contexts/CurrentUserContext";
+
 export default function Card(props) {
+  // ------------------Context-------------------------
+  const currentUser = useContext(CurrentUserContext);
+  const {_id } = currentUser;
+  console.log(currentUser._id)
+
+  
   // ------------------Variables-------------------------
   const myCardLikes = props.card.likes.some((like) => {
-    return like._id === props.user._id;
+    return like._id === _id;
   });
   const [isThisCardLiked, setIsThisCardLiked] = React.useState(myCardLikes);
-  const isThisMyCard = props.user._id === props.owner._id;
+  const isThisMyCard = _id === props.owner._id;
 
   //  ------------------handleLikeClick-------------------------
   async function handleLikeClick(evt) {

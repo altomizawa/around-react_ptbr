@@ -1,6 +1,7 @@
 import React from "react";
 import CloseButton from "../images/Close_Icon.svg";
 
+
 function PopupWithForm(props) {
   const handleOverlayClick = (evt) => {
     if (evt.target.classList.contains(`popup_${props.name}`)) {

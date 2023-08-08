@@ -2,7 +2,6 @@ import React from "react";
 import CloseButton from "../images/Close_Icon.svg";
 
 export default function ImagePopUp(props) {
-  console.log(props.isImagePopupOpen);
   window.addEventListener("keydown", handleEsc);
   window.addEventListener("click", handleOverlayClick);
 

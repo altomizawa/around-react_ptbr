@@ -1,10 +1,16 @@
-import React from "react";
+import React, {useContext} from "react";
 
 import PencilButton from "../images/Pencil.svg";
 import AddButton from "../images/Plus-sign.svg";
 import Card from "./Card";
 
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
+
 function Main(props) {
+  const currentUser = useContext(CurrentUserContext);
+  const { name, about, avatar } = currentUser;
+
+
   // --------------------MAP CARDS-------------------------
   const cardsData = props.cards.map((card, i) => (
     <Card
@@ -37,14 +43,14 @@ function Main(props) {
               />
             </div>
             <img
-              src={props.user.avatar}
+              src={avatar}
               alt="Avatar"
               className="profile__picture"
             />
           </div>
           <div className="profile__text-wrapper">
             <div className="profile__name-wrapper">
-              <h1 className="profile__name">{props.user.name}</h1>
+              <h1 className="profile__name">{name}</h1>
               <button
                 onClick={props.onEditProfileClick}
                 className="profile__edit"
@@ -52,7 +58,7 @@ function Main(props) {
                 <img src={PencilButton} alt="ilustração de um lápis" />
               </button>
             </div>
-            <h2 className="profile__title">{props.user.about}</h2>
+            <h2 className="profile__title">{about}</h2>
           </div>
         </div>
         {/* -- ------------------------ADD NEW CARD BUTTON------------------------------ --> */}{" "}
