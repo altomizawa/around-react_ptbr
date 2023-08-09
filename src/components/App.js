@@ -29,7 +29,7 @@ export default function App() {
       .then((data) => {
         setCurrentUser(data);
       });
-  }, []);  
+  }, []);
 
   // ------------------Update Avatar Function-------------------------
   const handleAvatarSubmit = (user, button) => {
@@ -39,13 +39,13 @@ export default function App() {
       .then((data) => setCurrentUser(data));
   };
 
-  // // ------------------Update Profile Function-------------------------
-  // const handleProfileSubmit = (user, button) => {
-  //   clientApi
-  //     .updateProfile(user, button)
-  //     .then((res) => res.json())
-  //     .then((data) => setCurrentUser(data));
-  // };
+  // ------------------Update Profile Function-------------------------
+  const handleProfileSubmit = (user, button) => {
+    clientApi
+      .updateProfile(user, button)
+      .then((res) => res.json())
+      .then((data) => setCurrentUser(data));
+  };
 
   // ------------------Create Card Function-------------------------
   function handleNewCardSubmit(card) {
@@ -65,21 +65,32 @@ export default function App() {
     });
   }
 
-  //-----------------Like Card Function-------------------------
-  function handleCardLike(cardId, likeCounter) {
-    clientApi
-      .sendLike(cardId)
-      .then((res) => res.json())
-      .then((result) => (likeCounter.textContent = result.likes.length));
+  //--------------------HANDLE CARD LIKE FUNCTION---------------
+  function handleCardLike(card) {
+    //Check if card has been liked
+    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+
+    //send api request and get updated card
+    clientApi.changeLikeCardStatus(card._id, isLiked).then((newCard) => {
+      setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
+    });
   }
 
-  //-----------------Dislike Card Function-------------------------
-  function handleCardDislike(cardId, likeCounter) {
-    clientApi
-      .sendDislike(cardId)
-      .then((res) => res.json())
-      .then((result) => (likeCounter.textContent = result.likes.length));
-  }
+  // //-----------------Like Card Function-------------------------
+  // function handleCardLike(cardId, likeCounter) {
+  //   clientApi
+  //     .sendLike(cardId)
+  //     .then((res) => res.json())
+  //     .then((result) => (likeCounter.textContent = result.likes.length));
+  // }
+
+  // //-----------------Dislike Card Function-------------------------
+  // function handleCardDislike(cardId, likeCounter) {
+  //   clientApi
+  //     .sendDislike(cardId)
+  //     .then((res) => res.json())
+  //     .then((result) => (likeCounter.textContent = result.likes.length));
+  // }
 
   // ------------------Variables-------------------------
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
@@ -223,9 +234,11 @@ export default function App() {
           onEditAvatarClick={handleEditAvatarClick}
           onAddPlaceClick={handleAddPlaceClick}
           cards={cards}
-          handleCardDelete={handleCardDelete}
-          handleCardLike={handleCardLike}
-          handleCardDislike={handleCardDislike}
+          setCards={setCards}
+          onCardDelete={handleCardDelete}
+          onCardLike={handleCardLike}
+          // handleCardLike={handleCardLike}
+          // handleCardDislike={handleCardDislike}
         />
         {/* <!-- ------------------------PROFILE AVATAR FORM------------------------------ --> */}
         <PopupWithForm
@@ -249,7 +262,10 @@ export default function App() {
         </PopupWithForm>
 
         {/* ----------------------------PROFILE FORM-------------------------------- */}
-        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} />
+        <EditProfilePopup
+          isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopups}
+        />
 
         {/* <!-- ------------------------NEW CARD FORM------------------------------ --> */}
 
@@ -295,7 +311,6 @@ export default function App() {
           onClose={closeAllPopups}
           isImagePopupOpen={isImagePopupOpen}
         />
-
       </CurrentUserContext.Provider>
 
       <Footer />

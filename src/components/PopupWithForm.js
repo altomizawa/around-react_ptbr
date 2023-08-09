@@ -1,7 +1,6 @@
 import React from "react";
 import CloseButton from "../images/Close_Icon.svg";
 
-
 function PopupWithForm(props) {
   const handleOverlayClick = (evt) => {
     if (evt.target.classList.contains(`popup_${props.name}`)) {
@@ -31,9 +30,7 @@ function PopupWithForm(props) {
 
   return (
     <div
-      className={`popup popup_${props.name} ${
-        props.isPopupActive && "popup_active"
-      }`}
+      className={`popup popup_${props.name} ${props.isOpen && "popup_active"}`}
     >
       <form
         className="popup__card"

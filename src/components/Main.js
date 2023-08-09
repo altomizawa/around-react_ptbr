@@ -1,15 +1,14 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 
 import PencilButton from "../images/Pencil.svg";
 import AddButton from "../images/Plus-sign.svg";
 import Card from "./Card";
 
-
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Main(props) {
   const currentUser = useContext(CurrentUserContext);
-  const { name, about, avatar } = currentUser;     
+  const { name, about, avatar } = currentUser;
 
   // --------------------MAP CARDS-------------------------
   const cardsData = props.cards.map((card, i) => (
@@ -18,11 +17,12 @@ function Main(props) {
       {...card}
       card={card}
       onCardClick={props.handleCardClick}
-      handleCardDelete={props.handleCardDelete}
+      handleCardDelete={props.onCardDelete}
       selectedCard={props.selectedCard}
       user={props.user}
-      handleCardLike={props.handleCardLike}
-      handleCardDislike={props.handleCardDislike}
+      onCardLike={props.onCardLike}
+      // handleCardLike={props.handleCardLike}
+      // handleCardDislike={props.handleCardDislike}
     />
   ));
 
@@ -42,11 +42,7 @@ function Main(props) {
                 className="profile__picture-icon"
               />
             </div>
-            <img
-              src={avatar}
-              alt="Avatar"
-              className="profile__picture"
-            />
+            <img src={avatar} alt="Avatar" className="profile__picture" />
           </div>
           <div className="profile__text-wrapper">
             <div className="profile__name-wrapper">

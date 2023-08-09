@@ -83,27 +83,45 @@ export class Api {
     });
   }
 
-  sendLike(cardId) {
+  changeLikeCardStatus(cardId, isLiked) {
     return fetch(`${this._url}/cards/likes/${cardId}`, {
-      method: "PUT",
+      method: !isLiked ? "PUT" : "DELETE",
       headers: {
         Authorization: this._authorization,
         "Content-Type": "application.json",
       },
-    }).catch((err) => {
-      console.log(err);
-    });
+    })
+      .then((res) => res.json())
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
-  sendDislike(cardId) {
-    return fetch(`${this._url}/cards/likes/${cardId}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: this._authorization,
-        "Content-Type": "application.json",
-      },
-    }).catch((err) => {
-      console.log(err);
-    });
-  }
+  // sendLike(cardId) {
+  //   return fetch(`${this._url}/cards/likes/${cardId}`, {
+  //     method: "PUT",
+  //     headers: {
+  //       Authorization: this._authorization,
+  //       "Content-Type": "application.json",
+  //     },
+  //   })
+  //     .then((res) => res.json())
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }
+
+  // sendDislike(cardId) {
+  //   return fetch(`${this._url}/cards/likes/${cardId}`, {
+  //     method: "DELETE",
+  //     headers: {
+  //       Authorization: this._authorization,
+  //       "Content-Type": "application.json",
+  //     },
+  //   })
+  //     .then((res) => res.json())
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }
 }
