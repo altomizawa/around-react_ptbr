@@ -27,12 +27,17 @@ export default function EditProfilePopup(props) {
     });
   }
 
+  function handleSubmit(e){
+    e.preventDefault()
+    console.log(e.target)
+  }
+
   return (
     <PopupWithForm
       title="Editar perfil"
       name="edit"
       buttonLabel="Alterar"
-      // onSubmit={editProfileSubmitHandler}
+      // onSubmit={handleSubmit}
       isOpen={props.isOpen}
       onClose={props.onClose}
     >

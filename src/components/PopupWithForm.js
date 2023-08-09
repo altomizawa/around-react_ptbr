@@ -26,6 +26,11 @@ function PopupWithForm(props) {
     window.removeEventListener("click", handleOverlayClick);
   }
 
+  function teste(e){
+    e.preventDefault()
+    console.log(e.target)
+  }
+
   setEventListeners();
 
   return (
@@ -47,9 +52,10 @@ function PopupWithForm(props) {
         <h4 className="popup__title">{props.title}</h4>
         {props.children}
         <button
-          className="popup__submit-button popup__submit-button_inactive"
-          type="submit"
-          onClick={props.onSubmit}
+          className="popup__submit-button"
+          // className="popup__submit-button popup__submit-button_inactive"
+          // type="submit"
+          // onSubmit={teste}
         >
           {props.buttonLabel}
         </button>
