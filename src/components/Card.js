@@ -11,26 +11,11 @@ export default function Card(props) {
   // ------------------Context-------------------------
   const currentUser = useContext(CurrentUserContext);
 
-  // ------------------Variables-------------------------
-  // const myCardLikes = props.card.likes.some((like) => {
-  //   return like._id === currentUser._id;
-  // });
-  // const [isThisCardLiked, setIsThisCardLiked] = React.useState(myCardLikes);
+  //Check if it's my card
   const isThisMyCard = currentUser._id === props.owner._id;
+
+  //Check if ive liked the card
   const isLiked = props.likes.some((i) => i._id === currentUser._id);
-
-  //  ------------------handleLikeClick-------------------------
-  // async function handleLikeClick(evt) {
-  //   const likeCounter = evt.target.parentElement.querySelector(".card__likes");
-
-  //   // if (!isThisCardLiked) {
-  //   //   props.handleCardLike(props._id, likeCounter);
-  //   //   setIsThisCardLiked((prevState) => !prevState);
-  //   // } else {
-  //   //   props.handleCardDislike(props._id, likeCounter);
-  //   //   setIsThisCardLiked((prevState) => !prevState);
-  //   // }
-  // }
 
   //-----------------------Return JSX--------------------
   return (
