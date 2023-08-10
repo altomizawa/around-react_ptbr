@@ -1,4 +1,4 @@
-import { apiUrl, authorization } from "../components/constants";
+import {apiUrl, authorization} from "../components/constants"
 
 class Api {
   constructor(url, authorization) {
@@ -103,4 +103,3 @@ class Api {
 const clientApi = new Api(apiUrl, authorization)
 
 export default clientApi
-
