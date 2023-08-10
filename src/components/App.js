@@ -2,7 +2,7 @@ import React from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-import {Api} from "../utils/Api"
+import Api from "../utils/Api"
 import { apiUrl, authorization } from "./constants";
 import ImagePopup from "./ImagePopup";
 import EditProfilePopup from "./EditProfilePopup";
