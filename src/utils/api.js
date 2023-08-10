@@ -30,7 +30,7 @@ export class Api {
     }).catch((err) => console.log(err));
   }
 
-  updateProfilePicture(userInfo, button) {
+  updateProfilePicture(avatar, button) {
     return fetch(`${this._url}/users/me/avatar`, {
       method: "PATCH",
       headers: {
@@ -38,7 +38,7 @@ export class Api {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        avatar: `${userInfo.avatar}`,
+        avatar: `${avatar}`,
       }),
     }).catch((err) => {
       console.log(err);

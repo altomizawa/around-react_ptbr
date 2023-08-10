@@ -6,6 +6,7 @@ import { clientApi } from "./constants";
 import ImagePopup from "./ImagePopup";
 import PopupWithForm from "./PopupWithForm";
 import EditProfilePopup from "./EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
 
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
@@ -32,19 +33,26 @@ export default function App() {
   }, []);
 
   // ------------------Update Avatar Function-------------------------
-  const handleAvatarSubmit = (user, button) => {
+  const handleAvatarSubmit = (avatar, button) => {
     clientApi
-      .updateProfilePicture(user, button)
+      .updateProfilePicture(avatar, button)
       .then((res) => res.json())
-      .then((data) => setCurrentUser(data));
+      .then((data) => {
+        setCurrentUser(data);
+        closeAllPopups();
+        // setFormData({ ...formData, [avatar]: "" });
+      });
   };
 
   // ------------------Update Profile Function-------------------------
-  const handleProfileSubmit = (user, button) => {
+  const handleUpdateUser = (user, button) => {
     clientApi
       .updateProfile(user, button)
       .then((res) => res.json())
-      .then((data) => setCurrentUser(data));
+      .then((data) => {
+        setCurrentUser(data);
+        closeAllPopups();
+      });
   };
 
   // ------------------Create Card Function-------------------------
@@ -142,21 +150,21 @@ export default function App() {
   }
 
   // --------------------FORM SUBMISSION - PROFILE -------------------------
-  function editProfileSubmitHandler(evt) {
-    console.log(formData);
-    evt.preventDefault();
-    handleProfileSubmit(formData, evt.target);
-    resetFormFields();
-    closeAllPopups();
-  }
+  // function editProfileSubmitHandler(evt) {
+  //   console.log(formData);
+  //   evt.preventDefault();
+  //   handleUpdateUser(formData, evt.target);
+  //   resetFormFields();
+  //   closeAllPopups();
+  // }
 
   // --------------------FORM SUBMISSION - AVATAR -------------------------
-  function editAvatarSubmitHandler(evt) {
-    evt.preventDefault();
-    handleAvatarSubmit(formData);
-    resetFormFields();
-    closeAllPopups();
-  }
+  // function editAvatarSubmitHandler(evt) {
+  //   evt.preventDefault();
+  //   handleAvatarSubmit(formData);
+  //   resetFormFields();
+  //   closeAllPopups();
+  // }
 
   // --------------------GET FORM DATA------------------------
   const [formData, setFormData] = React.useState({
@@ -241,30 +249,17 @@ export default function App() {
           // handleCardDislike={handleCardDislike}
         />
         {/* <!-- ------------------------PROFILE AVATAR FORM------------------------------ --> */}
-        <PopupWithForm
-          title="Alterar a foto do perfil"
-          name="profile_avatar"
-          buttonLabel="Salvar"
-          onSubmit={editAvatarSubmitHandler}
-          isPopupActive={isEditAvatarPopupOpen}
+        <EditAvatarPopup
+          isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
-        >
-          <input
-            id="profile-link-input"
-            name="avatar"
-            type="url"
-            className="popup__input popup__input_profile-link"
-            placeholder="Link da imagem"
-            required
-            onChange={handleInputChange}
-            value={formData.avatar}
-          ></input>
-        </PopupWithForm>
+          onUpdateAvatar={handleAvatarSubmit}
+        />
 
         {/* ----------------------------PROFILE FORM-------------------------------- */}
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
         />
 
         {/* <!-- ------------------------NEW CARD FORM------------------------------ --> */}

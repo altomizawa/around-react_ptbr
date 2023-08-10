@@ -3,14 +3,13 @@ import PopupWithForm from "./PopupWithForm";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 export default function EditProfilePopup(props) {
-  const [name, setName] = React.useState("");
-  const [about, setAbout] = React.useState("");
+  const [avatar, setAvatar] = React.useState("");
   const currentUser = React.useContext(CurrentUserContext);
+  const avatarRef = React.useRef();
 
   //ADD USER DATA TO PROFILE POPUP
   React.useEffect(() => {
-    setName(currentUser.name);
-    setAbout(currentUser.about);
+    setAvatar(currentUser.name);
   }, [currentUser]);
 
   const [formData, setFormData] = React.useState({
@@ -29,37 +28,28 @@ export default function EditProfilePopup(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    props.onUpdateUser(formData);
+    props.onUpdateAvatar(avatarRef.current.value);
   }
 
   return (
     <PopupWithForm
-      title="Editar perfil"
-      name="edit"
+      title="Alterar foto do perfil"
+      name="edit_avatar"
       buttonLabel="Alterar"
       onSubmit={handleSubmit}
       isOpen={props.isOpen}
       onClose={props.onClose}
     >
       <input
-        id="profile-name-input"
-        name="name"
-        type="text"
-        className="popup__input popup__input_profile-name"
-        placeholder={name}
+        id="profile-link-input"
+        name="avatar"
+        type="url"
+        className="popup__input popup__input_profile-link"
+        placeholder="Link da imagem"
         required
         onChange={handleInputChange}
+        ref={avatarRef}
         // value={formData.name}
-      />
-      <input
-        id="profile-profession-input"
-        name="about"
-        type="text"
-        className="popup__input popup__input_profile-profession"
-        placeholder={about}
-        required
-        onChange={handleInputChange}
-        // value={formData.about}
       />
       <span
         className="popup__input-error card-link-input-error"
