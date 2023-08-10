@@ -1,4 +1,6 @@
-export class Api {
+import { apiUrl, authorization } from "../components/constants";
+
+class Api {
   constructor(url, authorization) {
     this._url = url;
     this._authorization = authorization;
@@ -97,3 +99,6 @@ export class Api {
       });
   }
 }
+
+const clientApi = new Api(apiUrl, authorization);
+export { clientApi };
