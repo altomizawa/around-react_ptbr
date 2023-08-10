@@ -1,4 +1,4 @@
-export class Api {
+export default class Api {
   constructor(url, authorization) {
     this._url = url;
     this._authorization = authorization;
@@ -96,32 +96,4 @@ export class Api {
         console.log(err);
       });
   }
-
-  // sendLike(cardId) {
-  //   return fetch(`${this._url}/cards/likes/${cardId}`, {
-  //     method: "PUT",
-  //     headers: {
-  //       Authorization: this._authorization,
-  //       "Content-Type": "application.json",
-  //     },
-  //   })
-  //     .then((res) => res.json())
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }
-
-  // sendDislike(cardId) {
-  //   return fetch(`${this._url}/cards/likes/${cardId}`, {
-  //     method: "DELETE",
-  //     headers: {
-  //       Authorization: this._authorization,
-  //       "Content-Type": "application.json",
-  //     },
-  //   })
-  //     .then((res) => res.json())
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }
 }
