@@ -21,8 +21,6 @@ function Main(props) {
       selectedCard={props.selectedCard}
       user={props.user}
       onCardLike={props.onCardLike}
-      // handleCardLike={props.handleCardLike}
-      // handleCardDislike={props.handleCardDislike}
     />
   ));
 

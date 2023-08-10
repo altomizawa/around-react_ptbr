@@ -20,6 +20,13 @@ export default function EditProfilePopup(props) {
   });
 
   function handleInputChange(evt) {
+    //Validate From
+    const button = evt.target.parentElement.querySelector("button");
+    const isInputValid = evt.target.value.length > 3;
+    isInputValid
+      ? button.classList.remove("popup__submit-button_inactive")
+      : button.classList.add("popup__submit-button_inactive");
+
     const { name, value } = evt.target;
     setFormData({
       ...formData,
@@ -49,8 +56,8 @@ export default function EditProfilePopup(props) {
         placeholder={name}
         required
         onChange={handleInputChange}
-        // value={formData.name}
       />
+
       <input
         id="profile-profession-input"
         name="about"
@@ -59,8 +66,8 @@ export default function EditProfilePopup(props) {
         placeholder={about}
         required
         onChange={handleInputChange}
-        // value={formData.about}
       />
+
       <span
         className="popup__input-error card-link-input-error"
         id="profile-link-input--error"

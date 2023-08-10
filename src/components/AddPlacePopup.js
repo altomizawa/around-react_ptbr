@@ -1,19 +1,21 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
 
-export default function EditProfilePopup(props) {
-  const avatarRef = React.useRef();
+export default function AddPlacePopup(props) {
+  function handleSubmit(e) {
+    e.preventDefault();
+    props.onAddPlaceSubmit(formData);
+  }
 
   const [formData, setFormData] = React.useState({
-    name: "",
-    about: "",
-    avatar: "",
+    cardName: "",
+    cardLink: "",
   });
 
   function handleInputChange(evt) {
     //Validate Form
     const button = evt.target.parentElement.querySelector("button");
-    const isInputValid = evt.target.value.length > 7;
+    const isInputValid = evt.target.value.length > 3;
     isInputValid
       ? button.classList.remove("popup__submit-button_inactive")
       : button.classList.add("popup__submit-button_inactive");
@@ -25,31 +27,35 @@ export default function EditProfilePopup(props) {
     });
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    props.onUpdateAvatar(avatarRef.current.value);
-    avatarRef.current.value = "";
-  }
-
   return (
     <PopupWithForm
-      title="Alterar foto do perfil"
-      name="edit_avatar"
-      buttonLabel="Alterar"
-      onSubmit={handleSubmit}
+      title="Novo local"
+      name="newcard"
+      buttonLabel="Criar"
       isOpen={props.isOpen}
       onClose={props.onClose}
+      onSubmit={handleSubmit}
     >
       <input
+        id="profile-name-input"
+        name="cardName"
+        type="text"
+        className="popup__input popup__input_profile-name"
+        placeholder="Título"
+        required
+        onChange={handleInputChange}
+      />
+
+      <input
         id="profile-link-input"
-        name="avatar"
+        name="cardLink"
         type="url"
         className="popup__input popup__input_profile-link"
         placeholder="Link da imagem"
         required
         onChange={handleInputChange}
-        ref={avatarRef}
       />
+
       <span
         className="popup__input-error card-link-input-error"
         id="profile-link-input--error"
