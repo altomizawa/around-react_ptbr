@@ -4,7 +4,12 @@ import PopupWithForm from "./PopupWithForm";
 export default function AddPlacePopup(props) {
   function handleSubmit(e) {
     e.preventDefault();
-    props.onAddPlaceSubmit(formData);
+    //check if link input is URL
+    const https = "https://"
+    formData.cardLink.startsWith(https) ? props.onAddPlaceSubmit(formData) : props.onClose()  
+
+    //console.log(formData.cardLink.includes(https))
+    //props.onAddPlaceSubmit(formData);
   }
 
   const [formData, setFormData] = React.useState({

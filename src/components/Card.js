@@ -12,7 +12,9 @@ export default function Card(props) {
   const currentUser = useContext(CurrentUserContext);
 
   //Check if it's my card
-  const isThisMyCard = currentUser._id === props.owner._id;
+  //const isThisMyCard = currentUser._id === props.owner._id;
+  const isThisMyCard = true;
+
 
   //Check if ive liked the card
   const isLiked = props.likes.some((i) => i._id === currentUser._id);
