@@ -15,7 +15,6 @@ export default function Card(props) {
   //const isThisMyCard = currentUser._id === props.owner._id;
   const isThisMyCard = true;
 
-
   //Check if ive liked the card
   const isLiked = props.likes.some((i) => i._id === currentUser._id);
 
@@ -52,7 +51,11 @@ export default function Card(props) {
             <img
               src={isLiked ? heartActive : heart}
               alt="imagem de um coração vazado"
-              className="like-button like-button_inactive"
+              className={
+                isLiked
+                  ? "like-button like-button_active"
+                  : "like-button like-button_inactive"
+              }
               id="like_off"
               onClick={() => {
                 props.onCardLike(props);

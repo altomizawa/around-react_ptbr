@@ -2,22 +2,20 @@ import React from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-import clientApi from "../utils/Api"
 import { Api } from "../utils/Api";
-import { apiUrl, authorization } from "./constants";
 import ImagePopup from "./ImagePopup";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-
+const newApi = new Api();
 export default function App() {
   // ------------------Set Cards Array-------------------------
   const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
-    new Api(apiUrl, authorization)
+    newApi
       .getCardArray()
       .then((res) => res.json())
       .then((data) => setCards(data));
@@ -26,7 +24,7 @@ export default function App() {
   //------------------Set User Data-------------------------
   const [currentUser, setCurrentUser] = React.useState({});
   React.useEffect(() => {
-    clientApi
+    newApi
       .getUser()
       .then((res) => res.json())
       .then((data) => {
@@ -36,7 +34,7 @@ export default function App() {
 
   // ------------------Update Avatar Function-------------------------
   const handleAvatarSubmit = (avatar, button) => {
-    clientApi
+    newApi
       .updateProfilePicture(avatar, button)
       .then((res) => res.json())
       .then((data) => {
@@ -47,7 +45,7 @@ export default function App() {
 
   // ------------------Update Profile Function-------------------------
   const handleUpdateUser = (user, button) => {
-    clientApi
+    newApi
       .updateProfile(user, button)
       .then((res) => res.json())
       .then((data) => {
@@ -58,7 +56,7 @@ export default function App() {
 
   // ------------------Create Card Function-------------------------
   function handleNewCardSubmit(card) {
-    clientApi
+    newApi
       .addCard(card)
       .then((res) => res.json())
       .then((newCard) => {
@@ -70,7 +68,7 @@ export default function App() {
 
   //-------------------Delete Card Function-------------------------
   function handleCardDelete(cardId) {
-    clientApi.removeCard(cardId).then(() => {
+    newApi.removeCard(cardId).then(() => {
       setCards(cards.filter((c) => c._id !== cardId));
     });
   }
@@ -81,7 +79,7 @@ export default function App() {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
 
     //send api request and get updated card
-    clientApi.changeLikeCardStatus(card._id, isLiked).then((newCard) => {
+    newApi.changeLikeCardStatus(card._id, isLiked).then((newCard) => {
       setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
     });
   }
