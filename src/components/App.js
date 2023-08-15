@@ -3,6 +3,8 @@ import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 import clientApi from "../utils/Api"
+import { Api } from "../utils/Api";
+import { apiUrl, authorization } from "./constants";
 import ImagePopup from "./ImagePopup";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
@@ -15,7 +17,7 @@ export default function App() {
   const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
-    clientApi
+    new Api(apiUrl, authorization)
       .getCardArray()
       .then((res) => res.json())
       .then((data) => setCards(data));
