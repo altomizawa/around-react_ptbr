@@ -2,14 +2,22 @@ import React from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-import Api from "../utils/Api";
+
+//--------O PROJETO REQUER QUE SEJA EXPORTADA UMA INSTÂNCIA DA API,
+//--------AO INVÉS DE SER CRIADA AQUI NO APP.JS,----------------
+//---------SENÃO NÃO PASSA NOS TESTES AUTOMÁTICOS -------------
+
+import newApi from "../utils/Api";
+
+//---------------------------------------------------------------------------------------------------------------------
+
 import ImagePopup from "./ImagePopup";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-const newApi = new Api();
+
 export default function App() {
   // ------------------Set Cards Array-------------------------
   const [cards, setCards] = React.useState([]);
