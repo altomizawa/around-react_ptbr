@@ -1,6 +1,6 @@
 import { apiUrl, authorization } from "../components/constants";
 
-export class Api {
+export default class Api {
   constructor(url = apiUrl, authorizationToken = authorization) {
     this._url = url;
     this._authorization = authorizationToken;
