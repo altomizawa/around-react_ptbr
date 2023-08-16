@@ -2,11 +2,6 @@ import React from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-
-//--------O PROJETO REQUER QUE SEJA EXPORTADA UMA INSTÂNCIA DA API,
-//--------AO INVÉS DE SER CRIADA AQUI NO APP.JS,----------------
-//---------SENÃO NÃO PASSA NOS TESTES AUTOMÁTICOS -------------
-
 import newApi from "../utils/Api";
 
 //---------------------------------------------------------------------------------------------------------------------
