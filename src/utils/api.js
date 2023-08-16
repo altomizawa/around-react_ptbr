@@ -1,9 +1,8 @@
-import { apiUrl, authorization } from "../components/constants";
 
 export default class Api {
-  constructor(url = apiUrl, authorizationToken = authorization) {
+  constructor(url, authorization) {
     this._url = url;
-    this._authorization = authorizationToken;
+    this._authorization = authorization;
   }
 
   getUser() {
@@ -99,3 +98,4 @@ export default class Api {
       });
   }
 }
+
